@@ -16,8 +16,8 @@ GameObject:
   m_Name: Side
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6634698295802528789
 Transform:
@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FloorLevel: 0
+  m_SnapToGrid: 1
 --- !u!1 &6634698297199797844
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,8 +155,8 @@ GameObject:
   m_Name: OtherSide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6634698297199797845
 Transform:
