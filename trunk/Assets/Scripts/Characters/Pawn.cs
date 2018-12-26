@@ -33,6 +33,6 @@ public class Pawn : MonoBehaviour
     public void MoveTo(Vector3 pos)
     {
         Debug.Log("Move to: " + pos);
-        m_NavAgent.destination = pos;
+        m_NavAgent.SetDestination(pos);
     }
 }
