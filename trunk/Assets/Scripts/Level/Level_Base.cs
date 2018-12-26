@@ -8,6 +8,9 @@ public class Level_Base : MonoBehaviour
     [SerializeField]
     private int m_FloorLevel = 0;
 
+    [SerializeField]
+    private bool m_SnapToGrid = true;
+
     const float floorHeight = 5f;
 
     // Start is called before the first frame update
@@ -22,7 +25,8 @@ public class Level_Base : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        SnapToGrid();
+        if (m_SnapToGrid)
+            SnapToGrid();
     }
 
     void SnapToGrid()
