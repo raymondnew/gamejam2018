@@ -24,9 +24,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6310657547681398327}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 50, y: 5, z: -5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 1, z: 1}
   m_Children:
   - {fileID: 6310657548381328069}
   m_Father: {fileID: 0}
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_FloorLevel: 1
   m_SnapToGrid: 1
   m_DoorTransform: {fileID: 6310657548381328069}
-  m_DoorOpenPosition: {x: -1, y: 0, z: 1.2}
+  m_DoorOpenPosition: {x: -1.2, y: 0, z: 1.22}
   m_DoorOpenRotation: {x: 0, y: 90, z: 0}
   m_Open: 0
 --- !u!1 &6310657547798053545
@@ -108,7 +108,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d6e706a9462e21f41b00ed04a571543a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -170,7 +170,7 @@ Transform:
   m_GameObject: {fileID: 6310657548305839574}
   m_LocalRotation: {x: 0.00000036486034, y: 0.707107, z: 0.70710665, w: -0.00000036507845}
   m_LocalPosition: {x: 0, y: 2.5, z: 0}
-  m_LocalScale: {x: 0.24, y: 1, z: 0.5000005}
+  m_LocalScale: {x: 0.25, y: 1, z: 0.5000005}
   m_Children:
   - {fileID: 6310657547798053544}
   m_Father: {fileID: 6310657548381328069}
@@ -201,7 +201,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d6e706a9462e21f41b00ed04a571543a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
