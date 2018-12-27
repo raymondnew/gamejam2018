@@ -11,11 +11,16 @@ public class Level_Base : MonoBehaviour
     [SerializeField]
     private bool m_SnapToGrid = true;
 
+    public int FloorLevel { get { return m_FloorLevel; } }
+
     const float floorHeight = 5f;
+    static public float FloorHeight { get { return 5f; } }
 
     // Start is called before the first frame update
     void Start()
     {
+        LevelManager.RegisterLevelComponent(this);
+
         SnapToGrid();
 
         if (Application.isPlaying)

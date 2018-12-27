@@ -2887,6 +2887,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1731560841, guid: 5944deca63732ca43a0ae0e8fb286bdd, type: 3}
+      propertyPath: m_FOV
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731560841, guid: 5944deca63732ca43a0ae0e8fb286bdd, type: 3}
+      propertyPath: m_MaxRange
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731560841, guid: 5944deca63732ca43a0ae0e8fb286bdd, type: 3}
+      propertyPath: m_MinRange
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5944deca63732ca43a0ae0e8fb286bdd, type: 3}
 --- !u!1001 &1235511467
@@ -4084,6 +4096,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Pawn
       objectReference: {fileID: 0}
+    - target: {fileID: 5473551734107957341, guid: f519da6e8287ebc4bbe09634e0fcf84d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2793903598349640983, guid: f519da6e8287ebc4bbe09634e0fcf84d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4138,6 +4155,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192168973423267289, guid: f519da6e8287ebc4bbe09634e0fcf84d,
+        type: 3}
+      propertyPath: m_FOV
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192168973423267289, guid: f519da6e8287ebc4bbe09634e0fcf84d,
+        type: 3}
+      propertyPath: m_MaxRange
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192168973423267289, guid: f519da6e8287ebc4bbe09634e0fcf84d,
+        type: 3}
+      propertyPath: m_MinRange
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f519da6e8287ebc4bbe09634e0fcf84d, type: 3}
