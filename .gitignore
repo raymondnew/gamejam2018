@@ -3,6 +3,7 @@
 **/trunk/obj
 **/trunk/Packages
 **/trunk/Temp
+**/trunk/.vs
 trunk/GameJam2018.sln
 trunk/Assembly-CSharp.csproj
 trunk/trunk.sln
