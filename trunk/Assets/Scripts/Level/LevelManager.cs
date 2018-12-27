@@ -14,7 +14,11 @@ public class LevelManager : MonoBehaviour
     LayerMask m_ObstacleLayer;
     public static LayerMask ObstacleLayer { get { return (g_Inst != null) ? g_Inst.m_ObstacleLayer : (LayerMask)0; } }
 
-    public static LayerMask LOS_Layer { get { return (g_Inst != null) ? (LayerMask)(WalkableLayer | ObstacleLayer) : (LayerMask)0; } }
+    [SerializeField]
+    LayerMask m_CharacterLayer;
+    public static LayerMask CharacterLayer { get { return (g_Inst != null) ? g_Inst.m_CharacterLayer : (LayerMask)0; } }
+
+    public static LayerMask LOS_Layer { get { return (g_Inst != null) ? (LayerMask)(WalkableLayer | ObstacleLayer | CharacterLayer) : (LayerMask)0; } }
 
     private int m_FloorNum = 0;
 

@@ -51,13 +51,32 @@ public class Pawn : MonoBehaviour
     {
         List<Pawn> pawnList = LevelManager.GetPawnsByFloor(Floor);
 
-        foreach (Pawn pawn in pawnList)
+        for(int i = 0; i < pawnList.Count; i++)
         {
+            Pawn pawn = pawnList[i];
+
             // Check if in FOV
             Vector3 dirToPawn = (pawn.transform.position - transform.position).normalized;
             float angleDiff = Vector3.Angle(dirToPawn, pawn.transform.forward);
+            if (angleDiff > (m_FOV * 0.5f))
+            {
+                pawnList.Remove(pawn);
+                i--;
+                continue;
+            }
 
-            Debug.Log(name + " angle to " + pawn.name + ": " + angleDiff);
+            // Check if in LOS
+            bool noLOS = true;
+            RaycastHit hitInfo;
+            if (Physics.Raycast(transform.position, dirToPawn, out hitInfo, m_MaxRange, LevelManager.LOS_Layer))
+            {
+            }
+
+            if(noLOS)
+            {
+                pawnList.Remove(pawn);
+                i--;
+            }
         }
     }
 
