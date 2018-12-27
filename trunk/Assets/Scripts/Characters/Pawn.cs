@@ -22,6 +22,15 @@ public class Pawn : MonoBehaviour
 
     public int Floor { get; private set; } = -1;
 
+    [SerializeField]
+    float m_HP = 100.0f;
+    public float HP {
+        get { return m_HP; }
+        set { m_HP = value; }
+    }
+
+    public bool IsDead { get; set; } = false;
+
     void Awake()
     {
         InitAgent();
@@ -71,7 +80,8 @@ public class Pawn : MonoBehaviour
 
     public void Halt()
     {
-        m_NavAgent.destination = transform.position;
+        if (!m_NavAgent.isStopped)
+            m_NavAgent.destination = transform.position;
     }
 
     public List<Pawn> GetPawnsInLOS(Agent.AgentFaction faction)
@@ -121,6 +131,36 @@ public class Pawn : MonoBehaviour
         return pawnList;
     }
 
+    public bool HasLOS(Pawn target)
+    {
+        Vector3 yOffset = new Vector3(0.0f, 0.25f, 0.0f);
+
+        // Ignore if including yourself
+        if (target == this)
+            return false;
+
+        // Check if in FOV
+        Vector3 dirToPawn = (target.transform.position - transform.position).normalized;
+        float angleDiff = Vector3.Angle(dirToPawn, transform.forward);
+        if (angleDiff > (m_FOV * 0.5f))
+            return false;
+
+        // Check if in LOS
+        Debug.DrawRay(transform.position + (transform.forward * m_MinRange) + yOffset, dirToPawn * m_MaxRange, Color.blue);
+        bool noLOS = true;
+        RaycastHit hitInfo;
+        if (Physics.Raycast(transform.position + (transform.forward * m_MinRange) + yOffset, dirToPawn, out hitInfo, m_MaxRange, LevelManager.LOS_Layer))
+        {
+            Transform hitTransform = hitInfo.transform;
+            while (hitTransform != null && hitTransform.gameObject != target.gameObject)
+                hitTransform = hitTransform.parent;
+
+            noLOS = (hitTransform == null);
+        }
+
+        return !noLOS;
+    }
+
     void UpdateFloor()
     {
         int floorLevel = GetFloorLevel();
@@ -150,5 +190,18 @@ public class Pawn : MonoBehaviour
         Vector3 rightDir = (Quaternion.AngleAxis(m_FOV * 0.5f, Vector3.up) * transform.forward).normalized;
         Gizmos.DrawLine(transform.position + (leftDir * m_MinRange) + yOffset, transform.position + (leftDir * m_MaxRange) + yOffset);
         Gizmos.DrawLine(transform.position + (rightDir * m_MinRange) + yOffset, transform.position + (rightDir * m_MaxRange) + yOffset);
+    }
+
+
+
+    // COMBAT
+    public void ShootAt(Pawn target, float dmg)
+    {
+        target.ReceiveDmg(dmg);
+    }
+
+    void ReceiveDmg(float dmg)
+    {
+        m_HP -= dmg;
     }
 }

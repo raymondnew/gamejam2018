@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct MainWeapon
+{
+    public string name;
+    public float damage;
+    public float rof;
+}
+
 public class Item : MonoBehaviour
 {
     public enum ItemType {Weapon, Grenade, Armor, None };

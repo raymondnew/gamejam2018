@@ -58,6 +58,26 @@ public class LevelManager : MonoBehaviour
         return true;
     }
 
+    public static bool RemoveRED(Pawn pawn)
+    {
+        if (g_Inst == null)
+            return false;
+
+        g_Inst.m_RED_FloorMap[pawn.Floor].Remove(pawn);
+
+        return true;
+    }
+
+    public static bool RemoveBLUE(Pawn pawn)
+    {
+        if (g_Inst == null)
+            return false;
+
+        g_Inst.m_BLUE_FloorMap[pawn.Floor].Remove(pawn);
+
+        return true;
+    }
+
     public static bool UpdateREDPawn(Pawn pawn, int newLevel)
     {
         if (g_Inst == null)

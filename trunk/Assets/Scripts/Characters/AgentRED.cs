@@ -56,6 +56,8 @@ public class AgentRED : Agent
     {
         if (m_CurrentState == AgentState.Moving)
             HandlePatrolPoints();
+
+        base.Update();
     }
 
     void HandlePatrolPoints()
@@ -89,33 +91,76 @@ public class AgentRED : Agent
         ProcessWaypoint(nextWaypoint);
     }
 
-    IEnumerator ProcessThreats()
-    {
-        while (true)
-        {
-            if (m_CurrentState == AgentState.Holding || m_CurrentState == AgentState.Moving)
-            {
-                m_EnemiesList = m_Pawn.GetPawnsInLOS(AgentFaction.BLUE);
-
-                // If enemies are spotted, go into engage mode
-                if (m_EnemiesList.Count > 0)
-                {
-                    m_CurrentState = AgentState.Engaging;
-                    m_Pawn.Halt();
-                }
-            }
-
-            if (m_CurrentState == AgentState.Engaging)
-            {
-                // TODO: ENGAGE ENEMIES
-            }
-
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
-
     override protected void Begin()
     {
         m_CurrentState = AgentState.Moving;
+    }
+
+    protected override void Dead()
+    {
+        LevelManager.RemoveRED(m_Pawn);
+        base.Dead();
+    }
+
+
+    // COMBAT
+    Pawn m_Target = null;
+    float m_TimeToAim = 0.0f;
+
+    [SerializeField]
+    float m_AimTime = 1.0f;
+    IEnumerator ProcessThreats()
+    {
+        float m_Time = Time.time;
+        float m_LastTime = m_Time;
+        while (true)
+        {
+            float deltaTime = Time.time - m_LastTime;
+            // Find enemies in view
+            if (m_Target == null || !m_Pawn.HasLOS(m_Target))
+            {
+                m_EnemiesList = m_Pawn.GetPawnsInLOS(AgentFaction.BLUE);
+                if (m_EnemiesList.Count > 0)
+                    SetTarget(m_EnemiesList[0]);
+            }
+
+            // If target found, go into engage mode
+            if (m_Target != null)
+            {
+                transform.LookAt(m_Target.transform);
+                m_CurrentState = AgentState.Engaging;
+                m_Pawn.Halt();
+
+                // TODO: ENGAGE ENEMIES
+                // If dead, move on and acquire new target
+                if (m_Target.IsDead)
+                {
+                    m_Target = null;
+                    m_CurrentState = AgentState.Moving;
+                    continue;
+                }
+
+                // If not dead, aim towards target
+                m_TimeToAim = Mathf.Max(0.0f, m_TimeToAim - deltaTime);
+
+                // Once aim is established, shoot at target
+                if (m_TimeToAim == 0.0f)
+                    Shoot(m_Target, deltaTime);
+
+                m_LastTime = Time.time;
+                yield return null;
+            }
+            else
+            {
+                m_LastTime = Time.time;
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+    }
+
+    void SetTarget(Pawn target)
+    {
+        m_Target = target;
+        m_TimeToAim = m_AimTime;
     }
 }

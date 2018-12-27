@@ -56,12 +56,17 @@ public class AgentBLUE : Agent
     {
         if (m_CurrentState == AgentState.Moving)
             HandleCommandWaypoints();
+
+        base.Update();
     }
 
     void HandleCommandWaypoints()
     {
         if (m_GoCommandWaypointList.Count < 1)
+        {
+            m_CurrentState = AgentState.Holding;
             return;
+        }
 
         GoCommandWaypoint currWaypoint = m_GoCommandWaypointList[0];
         if (PlanningManager.Instance.CurrentGoCommand < currWaypoint.goCommand)
@@ -88,32 +93,68 @@ public class AgentBLUE : Agent
     protected override void Dead()
     {
         PlanningManager.OnGoCommand -= HandleOnGoCommand;
+        LevelManager.RemoveBLUE(m_Pawn);
         base.Dead();
     }
 
+    Pawn m_Target = null;
+    float m_TimeToAim = 0.0f;
+
+    [SerializeField]
+    float m_AimTime = 1.0f;
     IEnumerator ProcessThreats()
     {
+        float m_Time = Time.time;
+        float m_LastTime = m_Time;
         while (true)
         {
-            if (m_CurrentState == AgentState.Holding || m_CurrentState == AgentState.Moving)
+            float deltaTime = Time.time - m_LastTime;
+            // Find enemies in view
+            if (m_Target == null || !m_Pawn.HasLOS(m_Target))
             {
                 m_EnemiesList = m_Pawn.GetPawnsInLOS(AgentFaction.RED);
-
-                // If enemies are spotted, go into engage mode
                 if (m_EnemiesList.Count > 0)
-                {
-                    m_CurrentState = AgentState.Engaging;
-                    m_Pawn.Halt();
-                }
+                    SetTarget(m_EnemiesList[0]);
             }
 
-            if (m_CurrentState == AgentState.Engaging)
+            // If target found, go into engage mode
+            if (m_Target != null)
             {
-                // TODO: ENGAGE ENEMIES
-            }
+                transform.LookAt(m_Target.transform);
+                m_CurrentState = AgentState.Engaging;
+                m_Pawn.Halt();
 
-            yield return new WaitForSeconds(0.1f);
+                // TODO: ENGAGE ENEMIES
+                // If dead, move on and acquire new target
+                if (m_Target.IsDead)
+                {
+                    m_Target = null;
+                    m_CurrentState = AgentState.Moving;
+                    continue;
+                }
+
+                // If not dead, aim towards target
+                m_TimeToAim = Mathf.Max(0.0f, m_TimeToAim - deltaTime);
+
+                // Once aim is established, shoot at target
+                if (m_TimeToAim == 0.0f)
+                    Shoot(m_Target, deltaTime);
+
+                m_LastTime = Time.time;
+                yield return null;
+            }
+            else
+            {
+                m_LastTime = Time.time;
+                yield return new WaitForSeconds(0.1f);
+            }
         }
+    }
+
+    void SetTarget(Pawn target)
+    {
+        m_Target = target;
+        m_TimeToAim = m_AimTime;
     }
 
     override protected void Begin()
