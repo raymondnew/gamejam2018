@@ -130,28 +130,4 @@ public class Agent : MonoBehaviour
         m_Target = target;
         m_TimeToAim = m_AimTime;
     }
-
-    void OnDrawGizmos()
-    {
-        if(m_Target != null)
-        {
-            Vector3 yOffset = new Vector3(0.0f, 0.25f, 0.0f);
-            // Check if in FOV
-            Vector3 dirToPawn = (m_Target.transform.position - transform.position).normalized;
-
-            // Check if in LOS
-            //Debug.DrawRay(transform.position + (transform.forward * .75f) + yOffset, dirToPawn * 25.0f, Color.blue);
-            Gizmos.color = Color.green;
-            Gizmos.DrawRay(transform.position + (transform.forward * .75f) + yOffset, dirToPawn * 25.0f);
-            RaycastHit hitInfo;
-            if (Physics.Raycast(transform.position + (transform.forward * .75f) + yOffset, dirToPawn, out hitInfo, 25.0f, LevelManager.ObstacleLayer))
-            {
-                Transform hitTransform = hitInfo.transform;
-                while (hitTransform != null && hitTransform.gameObject != m_Target.gameObject)
-                    hitTransform = hitTransform.parent;
-            }
-
-
-        }
-    }
 }
