@@ -115,4 +115,9 @@ public class AgentBLUE : Agent
             yield return new WaitForSeconds(0.1f);
         }
     }
+
+    override protected void Begin()
+    {
+        m_CurrentState = AgentState.Holding;
+    }
 }

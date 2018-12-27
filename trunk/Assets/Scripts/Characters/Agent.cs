@@ -41,8 +41,7 @@ public class Agent : MonoBehaviour
     {
     }
 
-    protected void Begin()
+    virtual protected void Begin()
     {
-        m_CurrentState = AgentState.Holding;
     }
 }
