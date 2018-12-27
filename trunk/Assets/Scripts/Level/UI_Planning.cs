@@ -132,6 +132,8 @@ public class UI_Planning : MonoBehaviour
 
         GameObject prefab = Instantiate(m_waypointPrefab, waypoint, Quaternion.identity);
 
+        prefab.GetComponent<LineRenderer>().positionCount = 0;
+
     
         
 
@@ -178,30 +180,30 @@ public class UI_Planning : MonoBehaviour
         if (!IsWaypoint(previous))
             return;
         NavMeshAgent navmesh = current.m_prefab.GetComponent<NavMeshAgent>();
-
-        if (navmesh.CalculatePath(previous.waypoint, navmesh.path))
+        NavMeshPath path = new NavMeshPath();
+        if (navmesh.CalculatePath(previous.waypoint, path))
         {
-            StartCoroutine(DrawLine(navmesh));
+            StartCoroutine(DrawLine(navmesh, path));
         }
 
         
 
     }
 
-    public IEnumerator DrawLine(NavMeshAgent navmesh)
+    public IEnumerator DrawLine(NavMeshAgent navmesh, NavMeshPath path)
     {
-        while (navmesh.path.status == NavMeshPathStatus.PathPartial)
+        while (path.status == NavMeshPathStatus.PathPartial)
             yield return null;
 
        
 
 
-        navmesh.GetComponent<LineRenderer>().positionCount = navmesh.path.corners.Length;
+        navmesh.GetComponent<LineRenderer>().positionCount = path.corners.Length;
         
 
-        for (int i = 0; i < navmesh.path.corners.Length; i++)
+        for (int i = 0; i < path.corners.Length; i++)
         {
-            navmesh.GetComponent<LineRenderer>().SetPosition(i, navmesh.path.corners[i]);
+            navmesh.GetComponent<LineRenderer>().SetPosition(i, path.corners[i]);
         }
     }
 
