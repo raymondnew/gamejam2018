@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class UI_Planning : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class UI_Planning : MonoBehaviour
     UI_Waypoints m_bravoTwo = new UI_Waypoints();
     UI_Waypoints m_bravoThree = new UI_Waypoints();
     UI_Waypoints m_bravoFour = new UI_Waypoints();
+
+    
 
     public string m_selector;
     public UI_Waypoints m_uiwaypoint;
@@ -53,7 +56,16 @@ public class UI_Planning : MonoBehaviour
 
     }
 
-    public void SetWaypoint()
+    public void GoCommand()
+    {
+        SetWaypoint(true);
+
+    }
+
+
+
+
+    public void SetWaypoint(bool goCommand)
     {
         UI_Waypoints selectedWaypoint;
         string waypointName = "";
@@ -95,7 +107,22 @@ public class UI_Planning : MonoBehaviour
                 return;
         };
 
-        
+        if (goCommand)
+        {
+            UI_Waypoints.Waypoint goWaypointStruct = new UI_Waypoints.Waypoint();
+            goWaypointStruct.waypoint = new Vector3(-1,-1,-1);
+            
+
+            if (selectedWaypoint.m_waypoints.Count == 0)
+                goWaypointStruct.m_goCommand = 0;
+            else
+                goWaypointStruct.m_goCommand = selectedWaypoint.m_waypoints[selectedWaypoint.m_waypoints.Count - 1].m_goCommand+1;
+
+            selectedWaypoint.m_waypoints.Add(goWaypointStruct);
+            return;
+        }
+
+
 
         waypointName = waypointName + " Waypoint " + (selectedWaypoint.m_waypoints.Count + 1).ToString();
         Vector3 waypoint = GetWaypoint();
@@ -104,15 +131,80 @@ public class UI_Planning : MonoBehaviour
             return;
 
         GameObject prefab = Instantiate(m_waypointPrefab, waypoint, Quaternion.identity);
-        prefab.transform.Find("Name").GetComponent<TextMesh>().text = waypointName;
+
+    
+        
 
         UI_Waypoints.Waypoint waypointStruct = new UI_Waypoints.Waypoint();
         waypointStruct.waypoint = waypoint;
         waypointStruct.m_prefab = prefab.transform;
+        if (selectedWaypoint.m_waypoints.Count == 0)
+            waypointStruct.m_goCommand = 0;
+        else
+            waypointStruct.m_goCommand = selectedWaypoint.m_waypoints[selectedWaypoint.m_waypoints.Count - 1].m_goCommand;
+
+        prefab.transform.Find("Name").GetComponent<TextMesh>().text = waypointName + "\n" + "Go Command " + waypointStruct.m_goCommand.ToString();
+
+        UI_Waypoints.Waypoint previous = new UI_Waypoints.Waypoint();
+        previous.waypoint = new Vector3(-1, -1, -1);
+
+        bool foundPreviousWaypoint = false;
+        for(int i = selectedWaypoint.m_waypoints.Count -1; i >= 0; i--)
+        {
+            if (IsWaypoint(selectedWaypoint.m_waypoints[i]))
+            {
+                previous = selectedWaypoint.m_waypoints[i];
+                foundPreviousWaypoint = true;
+                i = 0;
+            }
+        }
+        if (foundPreviousWaypoint)
+            StartLine(waypointStruct,previous);
 
         selectedWaypoint.m_waypoints.Add(waypointStruct);
 
     }
+
+    public bool IsWaypoint(UI_Waypoints.Waypoint test)
+    {
+        if (test.waypoint.x == -1f && test.waypoint.y == -1f && test.waypoint.z == -1f)
+            return false;
+        else
+            return true;
+    }
+
+    public void StartLine(UI_Waypoints.Waypoint current , UI_Waypoints.Waypoint previous)
+    {
+        if (!IsWaypoint(previous))
+            return;
+        NavMeshAgent navmesh = current.m_prefab.GetComponent<NavMeshAgent>();
+
+        if (navmesh.CalculatePath(previous.waypoint, navmesh.path))
+        {
+            StartCoroutine(DrawLine(navmesh));
+        }
+
+        
+
+    }
+
+    public IEnumerator DrawLine(NavMeshAgent navmesh)
+    {
+        while (navmesh.path.status == NavMeshPathStatus.PathPartial)
+            yield return null;
+
+       
+
+
+        navmesh.GetComponent<LineRenderer>().positionCount = navmesh.path.corners.Length;
+        
+
+        for (int i = 0; i < navmesh.path.corners.Length; i++)
+        {
+            navmesh.GetComponent<LineRenderer>().SetPosition(i, navmesh.path.corners[i]);
+        }
+    }
+
 
     public void DeleteLast()
     {
@@ -124,6 +216,17 @@ public class UI_Planning : MonoBehaviour
             return;
 
         UI_Waypoints.Waypoint deleter = deleteWaypoint.m_waypoints[deleteWaypoint.m_waypoints.Count - 1];
+
+        if (deleteWaypoint.m_waypoints[deleteWaypoint.m_waypoints.Count - 1].waypoint.x == -1f)
+            if (deleteWaypoint.m_waypoints[deleteWaypoint.m_waypoints.Count - 1].waypoint.y == -1f)
+                if (deleteWaypoint.m_waypoints[deleteWaypoint.m_waypoints.Count - 1].waypoint.z == -1f)
+                {
+                    deleteWaypoint.m_waypoints.Remove(deleter);
+                    return;
+                }
+        
+
+        
         DeleteWaypoint(deleter);
         deleteWaypoint.m_waypoints.Remove(deleter);
 
@@ -176,7 +279,7 @@ public class UI_Planning : MonoBehaviour
         {
             if (m_selector != "")
             {
-                SetWaypoint();
+                SetWaypoint(false);
             }
 
         }
