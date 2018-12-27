@@ -23,6 +23,9 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0))
             MovePawnTest();
+
+        /*if (Input.GetKeyUp(KeyCode.Space) && m_TestPawn != null)
+            m_TestPawn.Halt();//*/
     }
 
     void MovePawnTest()

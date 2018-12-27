@@ -22,7 +22,9 @@ public class LevelManager : MonoBehaviour
 
     private int m_FloorNum = 0;
 
-    private Dictionary<int, List<Pawn>> m_PawnFloorMap = new Dictionary<int, List<Pawn>>();
+    private Dictionary<int, List<Pawn>> m_RED_FloorMap = new Dictionary<int, List<Pawn>>();
+
+    private Dictionary<int, List<Pawn>> m_BLUE_FloorMap = new Dictionary<int, List<Pawn>>();
 
     public static void RegisterLevelComponent(Level_Base component)
     {
@@ -30,41 +32,78 @@ public class LevelManager : MonoBehaviour
             g_Inst.m_FloorNum = Mathf.Max(g_Inst.m_FloorNum, 1 + component.FloorLevel);
     }
 
-    public static bool RegisterPawn(Pawn pawn)
+    public static bool RegisterRED(Pawn pawn)
     {
         if (g_Inst == null)
             return false;
 
-        if (!g_Inst.m_PawnFloorMap.ContainsKey(pawn.Floor))
-            g_Inst.m_PawnFloorMap.Add(pawn.Floor, new List<Pawn>());
+        if (!g_Inst.m_RED_FloorMap.ContainsKey(pawn.Floor))
+            g_Inst.m_RED_FloorMap.Add(pawn.Floor, new List<Pawn>());
 
-        g_Inst.m_PawnFloorMap[pawn.Floor].Add(pawn);
+        g_Inst.m_RED_FloorMap[pawn.Floor].Add(pawn);
 
         return true;
     }
 
-    public static bool UpdatePawn(Pawn pawn, int newLevel)
+    public static bool RegisterBLUE(Pawn pawn)
     {
         if (g_Inst == null)
             return false;
 
-        if (!g_Inst.m_PawnFloorMap[pawn.Floor].Remove(pawn))
-            Debug.LogError("Missing pawn in floor map");
+        if (!g_Inst.m_BLUE_FloorMap.ContainsKey(pawn.Floor))
+            g_Inst.m_BLUE_FloorMap.Add(pawn.Floor, new List<Pawn>());
 
-        if (!g_Inst.m_PawnFloorMap.ContainsKey(newLevel))
-            Debug.LogError("Missign floor in floor map");
-
-        g_Inst.m_PawnFloorMap[pawn.Floor].Add(pawn);
+        g_Inst.m_BLUE_FloorMap[pawn.Floor].Add(pawn);
 
         return true;
     }
 
-    public static List<Pawn> GetPawnsByFloor(int floor)
+    public static bool UpdateREDPawn(Pawn pawn, int newLevel)
     {
-        if (g_Inst == null || !g_Inst.m_PawnFloorMap.ContainsKey(floor))
+        if (g_Inst == null)
+            return false;
+
+        if (!g_Inst.m_RED_FloorMap[pawn.Floor].Remove(pawn))
+            Debug.LogError("Missing pawn in RED floor map");
+
+        if (!g_Inst.m_RED_FloorMap.ContainsKey(newLevel))
+            g_Inst.m_RED_FloorMap.Add(newLevel, new List<Pawn>());
+
+        g_Inst.m_RED_FloorMap[newLevel].Add(pawn);
+
+        return true;
+    }
+
+    public static bool UpdateBLUEPawn(Pawn pawn, int newLevel)
+    {
+        if (g_Inst == null)
+            return false;
+
+        if (!g_Inst.m_BLUE_FloorMap[pawn.Floor].Remove(pawn))
+            Debug.LogError("Missing pawn in BLUE floor map");
+
+        if (!g_Inst.m_BLUE_FloorMap.ContainsKey(newLevel))
+            g_Inst.m_BLUE_FloorMap.Add(newLevel, new List<Pawn>());
+
+        g_Inst.m_BLUE_FloorMap[newLevel].Add(pawn);
+
+        return true;
+    }
+
+    public static List<Pawn> GetREDPawnsByFloor(int floor)
+    {
+        if (g_Inst == null || !g_Inst.m_RED_FloorMap.ContainsKey(floor))
             return null;
 
-        return g_Inst.m_PawnFloorMap[floor];
+        return g_Inst.m_RED_FloorMap[floor];
+    }
+
+    public static List<Pawn> GetBLUEPawnsByFloor(int floor)
+    {
+        if (g_Inst == null || !g_Inst.m_BLUE_FloorMap.ContainsKey(floor))
+            return null;
+
+        return g_Inst.m_BLUE_FloorMap[floor];
     }
 
     void Awake()
