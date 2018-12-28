@@ -52,10 +52,16 @@ public class AgentRED : Agent
     // Update is called once per frame
     protected override void Update()
     {
+        base.Update();
+
+        if (m_CurrentState == AgentState.End)
+            return;
+
+        if (IsDead)
+            return;
+
         if (m_CurrentState == AgentState.Moving)
             HandlePatrolPoints();
-
-        base.Update();
     }
 
     void HandlePatrolPoints()

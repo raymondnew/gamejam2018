@@ -16,7 +16,8 @@ public class Agent : MonoBehaviour
         Staging,
         Holding,
         Moving,
-        Engaging
+        Engaging,
+        End
     }
 
     protected AgentState m_CurrentState = AgentState.Staging;
@@ -34,6 +35,7 @@ public class Agent : MonoBehaviour
     protected virtual void Awake()
     {
         m_Pawn = GetComponent<Pawn>();
+        GameRules.OnEndGame += End;
     }
 
     protected virtual void Update()
@@ -49,15 +51,30 @@ public class Agent : MonoBehaviour
 
     protected virtual void Dead()
     {
+        if (m_CurrentState == AgentState.End)
+            return;
+
+        if (IsDead)
+            return;
+
         IsDead = true;
         m_Pawn.IsDead = true;
 
+        CeaseFire();
+        StopAllCoroutines();
         gameObject.SetActive(false);
     }
 
     virtual protected void Begin()
     {
         StartCoroutine(ProcessThreats());
+    }
+
+    void End(GameRules.EndCondition endCondition)
+    {
+        m_CurrentState = AgentState.End;
+        CeaseFire();
+        StopAllCoroutines();
     }
 
 
