@@ -20,6 +20,15 @@ public class PlanningManager : MonoBehaviour
 
     public int m_TempGoCommandCount = 0;
 
+    [SerializeField]
+    bool m_Debug = true;
+
+    static public void BeginGame()
+    {
+        if (Instance != null)
+            Instance.Begin();
+    }
+
     void Awake()
     {
         Instance = this;
@@ -36,9 +45,6 @@ public class PlanningManager : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Space))
             IssueNextGoCommand();
-
-        if (Input.GetKeyUp(KeyCode.Return))
-            Begin();
     }
 
     public void AddNewGoCommand(int numGoCommands = 1)
@@ -63,7 +69,7 @@ public class PlanningManager : MonoBehaviour
         OnGoCommand?.Invoke(CurrentGoCommand);
     }
 
-    public void Begin()
+    void Begin()
     {
         if (!m_Begin)
         {
@@ -75,6 +81,12 @@ public class PlanningManager : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.TextField(new Rect(10, 10, 300, 20), "CURRENT GO COMMAND: " + CurrentGoCommand);
+        if (m_Debug)
+        {
+            if (CurrentGoCommand > -1)
+                GUI.TextField(new Rect(10, 10, 300, 20), "CURRENT GO COMMAND: " + CurrentGoCommand);
+            else
+                GUI.TextField(new Rect(10, 10, 300, 20), "IN STAGING");
+        }
     }
 }

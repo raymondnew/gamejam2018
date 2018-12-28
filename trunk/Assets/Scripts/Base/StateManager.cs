@@ -29,6 +29,10 @@ public class StateManager : MonoBehaviour
     private void Awake()
     {
         g_Inst = this;
+        DontDestroyOnLoad(gameObject);
+
+        if (FindObjectsOfType<StateManager>().Length > 1)
+            Destroy(gameObject);
     }
 
     // Start is called before the first frame update
@@ -70,6 +74,7 @@ public class StateManager : MonoBehaviour
 
     void SetMenu()
     {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
         OnNewState?.Invoke(GameState.Menu);
     }
 
@@ -80,6 +85,7 @@ public class StateManager : MonoBehaviour
 
     void SetPlaying()
     {
+        PlanningManager.BeginGame();
         OnNewState?.Invoke(GameState.Playing);
     }
 
