@@ -35,9 +35,10 @@ public class AgentBLUE : Agent
                 Level_Waypoint_BLUE WP = trans.GetComponent<Level_Waypoint_BLUE>();
                 if (WP != null)
                 {
-                    UI_Waypoints.Waypoint newWPdata;
+                    UI_Waypoints.Waypoint newWPdata = new UI_Waypoints.Waypoint();
                     newWPdata.m_goCommand = WP.m_GoCommand;
                     newWPdata.waypoint = trans.position;
+                    newWaypointsData.m_waypoints.Add(newWPdata);
                 }
             }
 
@@ -47,7 +48,7 @@ public class AgentBLUE : Agent
 
     public void SetupWaypoints(UI_Waypoints waypointData)
     {
-        if (!m_CommandWaypointsSet)
+        if (m_CommandWaypointsSet)
             return;
 
         m_GoCommandWaypointList.Clear();
