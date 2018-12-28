@@ -15,25 +15,4 @@ public class UI_Waypoints
         public Transform m_prefab;
         public int m_goCommand;
     }
-
-
-
-
-    void Awake()
-    {
-        
-
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

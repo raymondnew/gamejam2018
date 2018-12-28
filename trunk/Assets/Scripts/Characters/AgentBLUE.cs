@@ -16,6 +16,8 @@ public class AgentBLUE : Agent
     [SerializeField]
     Transform m_TempWaypointListParent;
 
+    bool m_CommandWaypointsSet = false;
+
     protected override void Awake()
     {
         PlanningManager.OnGoCommand += HandleOnGoCommand;
@@ -26,31 +28,40 @@ public class AgentBLUE : Agent
 
         if(m_TempWaypointListParent != null)
         {
+            UI_Waypoints newWaypointsData = new UI_Waypoints();
+            newWaypointsData.m_waypoints = new List<UI_Waypoints.Waypoint>();
             foreach (Transform trans in m_TempWaypointListParent)
             {
                 Level_Waypoint_BLUE WP = trans.GetComponent<Level_Waypoint_BLUE>();
                 if (WP != null)
                 {
-                    GoCommandWaypoint newWP;
-                    newWP.goCommand = WP.m_GoCommand;
-                    newWP.waypoint = trans.position;
-
-                    m_GoCommandWaypointList.Add(newWP);
+                    UI_Waypoints.Waypoint newWPdata;
+                    newWPdata.m_goCommand = WP.m_GoCommand;
+                    newWPdata.waypoint = trans.position;
                 }
             }
+
+            SetupWaypoints(newWaypointsData);
         }
     }
 
     public void SetupWaypoints(UI_Waypoints waypointData)
     {
+        if (!m_CommandWaypointsSet)
+            return;
+
         m_GoCommandWaypointList.Clear();
         foreach (UI_Waypoints.Waypoint wp in waypointData.m_waypoints)
         {
+            if (wp.m_goCommand > PlanningManager.Instance.GoCommandsCount)
+                PlanningManager.Instance.AddNewGoCommand(wp.m_goCommand - PlanningManager.Instance.GoCommandsCount + 1);
             GoCommandWaypoint newWP;
             newWP.goCommand = wp.m_goCommand;
             newWP.waypoint = wp.waypoint;
             m_GoCommandWaypointList.Add(newWP);
         }
+
+        m_CommandWaypointsSet = true;
     }
 
     // Start is called before the first frame update
