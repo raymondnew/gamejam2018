@@ -22,7 +22,7 @@ public class AgentRED : Agent
         PlanningManager.OnBegin += Begin;
         base.Awake();
 
-        m_Pawn.faction = Agent.AgentFaction.RED;
+        m_Pawn.faction = AgentFaction.RED;
 
         if (m_TempWaypointListParent != null)
         {

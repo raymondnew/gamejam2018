@@ -13,8 +13,6 @@ public class AgentBLUE : Agent
 
     private List<GoCommandWaypoint> m_GoCommandWaypointList = new List<GoCommandWaypoint>();
 
-    private List<Pawn> m_EnemiesList;
-
     [SerializeField]
     Transform m_TempWaypointListParent;
 
@@ -40,6 +38,18 @@ public class AgentBLUE : Agent
                     m_GoCommandWaypointList.Add(newWP);
                 }
             }
+        }
+    }
+
+    public void SetupWaypoints(UI_Waypoints waypointData)
+    {
+        m_GoCommandWaypointList.Clear();
+        foreach (UI_Waypoints.Waypoint wp in waypointData.m_waypoints)
+        {
+            GoCommandWaypoint newWP;
+            newWP.goCommand = wp.m_goCommand;
+            newWP.waypoint = wp.waypoint;
+            m_GoCommandWaypointList.Add(newWP);
         }
     }
 

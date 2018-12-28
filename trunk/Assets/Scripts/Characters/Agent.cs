@@ -27,6 +27,7 @@ public class Agent : MonoBehaviour
 
     [SerializeField]
     protected MainWeapon m_MainWeapon;
+    public MainWeapon MainWeapon { get { return m_MainWeapon; } }
 
     public bool IsDead { get; private set; } = false;
 
@@ -67,8 +68,13 @@ public class Agent : MonoBehaviour
 
     protected void Shoot(Pawn target, float deltaTime)
     {
-        float dmg = deltaTime * m_MainWeapon.rof;
-        m_Pawn.ShootAt(target, dmg);
+        //float dmg = deltaTime * m_MainWeapon.rof * m_MainWeapon.damage;
+        m_Pawn.ShootAt(target, m_MainWeapon.rof);
+    }
+
+    protected void CeaseFire()
+    {
+        m_Pawn.StopShooting();
     }
 
     Pawn m_Target = null;
@@ -104,6 +110,7 @@ public class Agent : MonoBehaviour
                 {
                     m_Target = null;
                     m_CurrentState = AgentState.Moving;
+                    CeaseFire();
                     continue;
                 }
 

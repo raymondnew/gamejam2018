@@ -9,6 +9,9 @@ public class Pawn : MonoBehaviour
     private NavMeshAgent m_NavAgent;
 
     [SerializeField]
+    ParticleSystem m_GunfireFX = null;
+
+    [SerializeField]
     float m_FOV;
 
     [SerializeField]
@@ -33,6 +36,7 @@ public class Pawn : MonoBehaviour
 
     void Awake()
     {
+        m_GunfireFX.Stop();
         InitAgent();
     }
 
@@ -123,7 +127,7 @@ public class Pawn : MonoBehaviour
             if (!noLOS)
             {
                 pawnList.Add(pawn);
-                Debug.Log(name + " seeing " + pawn.name + " at " + angleDiff + " angle and " + Vector3.Distance(transform.position, pawn.transform.position) + " distance.");
+                //Debug.Log(name + " seeing " + pawn.name + " at " + angleDiff + " angle and " + Vector3.Distance(transform.position, pawn.transform.position) + " distance.");
             }
         }
 
@@ -195,13 +199,23 @@ public class Pawn : MonoBehaviour
 
 
     // COMBAT
-    public void ShootAt(Pawn target, float dmg)
+    public void ShootAt(Pawn target, float rof)
     {
-        target.ReceiveDmg(dmg);
+        if (!m_GunfireFX.isPlaying)
+        {
+            var main = m_GunfireFX.main;
+            main.startSpeed = rof;
+            m_GunfireFX.Play();
+        }
     }
 
-    void ReceiveDmg(float dmg)
+    public void ReceiveDmg(float dmg)
     {
         m_HP -= dmg;
+    }
+
+    public void StopShooting()
+    {
+        m_GunfireFX.Stop();
     }
 }
