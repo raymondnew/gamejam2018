@@ -12,6 +12,9 @@ public class Pawn : MonoBehaviour
     ParticleSystem m_GunfireFX = null;
 
     [SerializeField]
+    ParticleSystem m_HitFX = null;
+
+    [SerializeField]
     float m_FOV;
 
     [SerializeField]
@@ -19,6 +22,9 @@ public class Pawn : MonoBehaviour
 
     [SerializeField]
     float m_MinRange;
+
+    [SerializeField]
+    float m_CharacterRadius = 1.25f;
 
     [HideInInspector]
     public Agent.AgentFaction faction;
@@ -209,9 +215,15 @@ public class Pawn : MonoBehaviour
         }
     }
 
-    public void ReceiveDmg(float dmg)
+    public void ReceiveDmg(float dmg, Vector3 attackerLocation)
     {
         m_HP -= dmg;
+
+        Vector3 dirTowardsAttacker = (attackerLocation - transform.position).normalized;
+        Vector3 dmgPosition = transform.position + (dirTowardsAttacker * m_CharacterRadius);
+        m_HitFX.transform.position = dmgPosition;
+        if (!m_HitFX.isPlaying)
+            m_HitFX.Play();
     }
 
     public void StopShooting()

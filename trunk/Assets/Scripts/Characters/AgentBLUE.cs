@@ -103,6 +103,7 @@ public class AgentBLUE : Agent
     override protected void Begin()
     {
         m_CurrentState = AgentState.Holding;
+        base.Begin();
     }
 
     protected override void Dead()

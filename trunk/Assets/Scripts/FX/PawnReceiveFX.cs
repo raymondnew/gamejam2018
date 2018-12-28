@@ -6,11 +6,9 @@ public class PawnReceiveFX : MonoBehaviour
 {
     Pawn m_Pawn = null;
     public List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
-    ParticleSystem part;
 
     void Awake()
     {
-        part = GetComponent<ParticleSystem>();
         Transform currTransform = transform;
 
         while (currTransform != null && currTransform.GetComponent<Pawn>() == null)
@@ -32,7 +30,7 @@ public class PawnReceiveFX : MonoBehaviour
         GunfireFX gunfireFX = other.GetComponent<GunfireFX>();
         if (gunfireFX != null)
         {
-            m_Pawn.ReceiveDmg(gunfireFX.Weapon.damage);
+            m_Pawn.ReceiveDmg(gunfireFX.Weapon.damage, gunfireFX.transform.position);
         }
     }
 }

@@ -92,6 +92,7 @@ public class AgentRED : Agent
     override protected void Begin()
     {
         m_CurrentState = AgentState.Moving;
+        base.Begin();
     }
 
     protected override void Dead()

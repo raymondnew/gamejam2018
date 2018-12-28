@@ -2,17 +2,187 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+interface IGameRule
+{
+    void Init();
+    bool HasEndConditionMet();
+}
+
+[System.Serializable]
+public struct GameProfile
+{
+    public string name;
+    public List<string> m_WinConditions;
+    public List<string> m_LossConditions;
+}
+
 public class GameRules : MonoBehaviour
 {
+    public delegate void EndGame(EndCondition endCondition);
+    static public event EndGame OnEndGame;
+
+    public enum EndCondition
+    {
+        Win,
+        Loss,
+        NoEnd
+    }
+
+    List<IGameRule> m_WinConditions = new List<IGameRule>();
+    List<IGameRule> m_LossConditions = new List<IGameRule>();
+
+    [SerializeField]
+    bool m_LoadFromTempProfileLibrary = true;
+
+    [SerializeField]
+    List<GameProfile> m_TempProfileLibrary = new List<GameProfile>();
+
+    [SerializeField]
+    int m_TempProfileLibraryIndex = -1;
+
+    bool m_Loaded = false;
+    EndCondition m_CurrentCondition = EndCondition.NoEnd;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (!m_Loaded)
+        {
+            if (m_LoadFromTempProfileLibrary && m_TempProfileLibraryIndex >= 0 && m_TempProfileLibraryIndex < m_TempProfileLibrary.Count)
+                ProcessGameProfile(m_TempProfileLibrary[m_TempProfileLibraryIndex]);
+
+            foreach (IGameRule gameRule in m_WinConditions)
+                gameRule.Init();
+            foreach (IGameRule gameRule in m_LossConditions)
+                gameRule.Init();
+
+            m_Loaded = true;
+        }
+
+        if (m_CurrentCondition == EndCondition.NoEnd)
+        {
+            bool winCondition = true;
+            foreach (IGameRule gameRule in m_WinConditions)
+            {
+                if (!gameRule.HasEndConditionMet())
+                {
+                    winCondition = false;
+                    break;
+                }
+            }
+            if (winCondition)
+            {
+                m_CurrentCondition = EndCondition.Win;
+                OnEndGame?.Invoke(EndCondition.Win);
+                return;
+            }
+
+            bool lossCondition = true;
+            foreach (IGameRule gameRule in m_LossConditions)
+            {
+                if (!gameRule.HasEndConditionMet())
+                {
+                    lossCondition = false;
+                    break;
+                }
+            }
+            if (lossCondition)
+            {
+                m_CurrentCondition = EndCondition.Win;
+                OnEndGame?.Invoke(EndCondition.Win);
+                return;
+            }
+        }
+    }
+
+    void ProcessGameProfile(GameProfile gameProfile)
+    {
+        Debug.Log("Processing Game Profile: " + gameProfile.name);
+        foreach (string gameRuleName in gameProfile.m_WinConditions)
+        {
+            IGameRule gameRule = GenerateGameProfile(gameRuleName);
+            if (gameRule != null)
+                m_WinConditions.Add(gameRule);
+        }
+
+        foreach (string gameRuleName in gameProfile.m_LossConditions)
+        {
+            IGameRule gameRule = GenerateGameProfile(gameRuleName);
+            if (gameRule != null)
+                m_LossConditions.Add(gameRule);
+        }
+    }
+
+    IGameRule GenerateGameProfile(string profileType)
+    {
+        System.Type classType = System.Type.GetType(profileType);
+        IGameRule newObj = (IGameRule)System.Activator.CreateInstance(classType);
+
+        return newObj;
+    }
+}
+
+public class NoREDLeftRule : IGameRule
+{
+    List<AgentRED> m_REDList = new List<AgentRED>();
+
+    void IGameRule.Init()
+    {
+        foreach (Pawn pawn in LevelManager.GetREDPawns())
+        {
+            AgentRED agent = pawn.GetComponent<AgentRED>();
+            if (agent != null)
+                m_REDList.Add(agent);
+        }
+    }
+
+    bool IGameRule.HasEndConditionMet()
+    {
+        bool conditionMet = true;
+        foreach (AgentRED agent in m_REDList)
+        {
+            if(!agent.IsDead)
+            {
+                conditionMet = false;
+                break;
+            }
+        }
+        return conditionMet;
+    }
+}
+
+public class NoBLUELeftRule : IGameRule
+{
+    List<AgentBLUE> m_BLUE_List = new List<AgentBLUE>();
+
+    void IGameRule.Init()
+    {
+        foreach (Pawn pawn in LevelManager.GetBLUEPawns())
+        {
+            AgentBLUE agent = pawn.GetComponent<AgentBLUE>();
+            if (agent != null)
+                m_BLUE_List.Add(agent);
+        }
+    }
+
+    bool IGameRule.HasEndConditionMet()
+    {
+        bool conditionMet = true;
+        foreach (AgentBLUE agent in m_BLUE_List)
+        {
+            if (!agent.IsDead)
+            {
+                conditionMet = false;
+                break;
+            }
+        }
+        return conditionMet;
     }
 }

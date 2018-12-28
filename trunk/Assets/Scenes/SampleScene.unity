@@ -256,7 +256,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &26824383 stripped
 Transform:
@@ -445,7 +445,58 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &69046712
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 69046714}
+  - component: {fileID: 69046713}
+  m_Layer: 0
+  m_Name: GameRules
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &69046713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69046712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b1c4cb10664e4d4a82efba2d1ab930f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LoadFromTempProfileLibrary: 1
+  m_TempProfileLibrary:
+  - name: Elimination
+    m_WinConditions:
+    - NoREDLeftRule
+    m_LossConditions:
+    - NoBLUELeftRule
+  m_TempProfileLibraryIndex: 0
+--- !u!4 &69046714
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69046712}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &90297602
 PrefabInstance:
@@ -1437,7 +1488,7 @@ PrefabInstance:
     - target: {fileID: 7069281999927464258, guid: 8d7db2a8644064642922bab3481f36ff,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.570921e-17
+      value: -8.570922e-17
       objectReference: {fileID: 0}
     - target: {fileID: 7069281999927464258, guid: 8d7db2a8644064642922bab3481f36ff,
         type: 3}
@@ -2568,7 +2619,7 @@ Transform:
   - {fileID: 1918573625}
   - {fileID: 1005774654}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &685507220
 PrefabInstance:
@@ -3899,7 +3950,7 @@ Transform:
   - {fileID: 357381741}
   - {fileID: 732876751}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1172237168
 PrefabInstance:
@@ -4105,7 +4156,7 @@ PrefabInstance:
     - target: {fileID: 432022610280984124, guid: 5944deca63732ca43a0ae0e8fb286bdd,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 432022610280984124, guid: 5944deca63732ca43a0ae0e8fb286bdd,
         type: 3}
@@ -4127,16 +4178,6 @@ PrefabInstance:
       propertyPath: m_TempWaypointListParent
       value: 
       objectReference: {fileID: 1918573625}
-    - target: {fileID: 5926428709749132171, guid: 5944deca63732ca43a0ae0e8fb286bdd,
-        type: 3}
-      propertyPath: m_MainWeapon.damage
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108567635401146768, guid: 5944deca63732ca43a0ae0e8fb286bdd,
-        type: 3}
-      propertyPath: lengthInSec
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5944deca63732ca43a0ae0e8fb286bdd, type: 3}
 --- !u!4 &1204127143 stripped
@@ -5872,11 +5913,6 @@ PrefabInstance:
     - target: {fileID: 2793903598349640983, guid: f519da6e8287ebc4bbe09634e0fcf84d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5908746223344863785, guid: f519da6e8287ebc4bbe09634e0fcf84d,
-        type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

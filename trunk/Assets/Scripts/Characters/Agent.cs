@@ -45,7 +45,6 @@ public class Agent : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        StartCoroutine(ProcessThreats());
     }
 
     protected virtual void Dead()
@@ -58,6 +57,7 @@ public class Agent : MonoBehaviour
 
     virtual protected void Begin()
     {
+        StartCoroutine(ProcessThreats());
     }
 
 

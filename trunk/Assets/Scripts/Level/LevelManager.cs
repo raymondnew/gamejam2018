@@ -22,8 +22,10 @@ public class LevelManager : MonoBehaviour
 
     private int m_FloorNum = 0;
 
+    private List<Pawn> m_RED_List = new List<Pawn>();
     private Dictionary<int, List<Pawn>> m_RED_FloorMap = new Dictionary<int, List<Pawn>>();
 
+    private List<Pawn> m_BLUE_List = new List<Pawn>();
     private Dictionary<int, List<Pawn>> m_BLUE_FloorMap = new Dictionary<int, List<Pawn>>();
 
     public static void RegisterLevelComponent(Level_Base component)
@@ -41,6 +43,7 @@ public class LevelManager : MonoBehaviour
             g_Inst.m_RED_FloorMap.Add(pawn.Floor, new List<Pawn>());
 
         g_Inst.m_RED_FloorMap[pawn.Floor].Add(pawn);
+        g_Inst.m_RED_List.Add(pawn);
 
         return true;
     }
@@ -54,6 +57,7 @@ public class LevelManager : MonoBehaviour
             g_Inst.m_BLUE_FloorMap.Add(pawn.Floor, new List<Pawn>());
 
         g_Inst.m_BLUE_FloorMap[pawn.Floor].Add(pawn);
+        g_Inst.m_BLUE_List.Add(pawn);
 
         return true;
     }
@@ -108,6 +112,22 @@ public class LevelManager : MonoBehaviour
         g_Inst.m_BLUE_FloorMap[newLevel].Add(pawn);
 
         return true;
+    }
+
+    public static List<Pawn> GetREDPawns()
+    {
+        if (g_Inst != null)
+            return g_Inst.m_RED_List;
+
+        return null;
+    }
+
+    public static List<Pawn> GetBLUEPawns()
+    {
+        if (g_Inst != null)
+            return g_Inst.m_BLUE_List;
+
+        return null;
     }
 
     public static List<Pawn> GetREDPawnsByFloor(int floor)
