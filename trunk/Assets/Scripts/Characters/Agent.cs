@@ -40,7 +40,7 @@ public class Agent : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (m_Pawn.HP < 0.0f)
+        if (m_Pawn.HP <= 0.0f)
             Dead();
     }
 
@@ -86,7 +86,7 @@ public class Agent : MonoBehaviour
     protected void Shoot(Pawn target, float deltaTime)
     {
         //float dmg = deltaTime * m_MainWeapon.rof * m_MainWeapon.damage;
-        m_Pawn.ShootAt(target, m_MainWeapon.rof);
+        m_Pawn.ShootAt(target, m_MainWeapon.rof, m_MainWeapon.muzzleVelocity);
     }
 
     protected void CeaseFire()

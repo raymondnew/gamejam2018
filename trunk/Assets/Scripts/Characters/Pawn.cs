@@ -205,12 +205,15 @@ public class Pawn : MonoBehaviour
 
 
     // COMBAT
-    public void ShootAt(Pawn target, float rof)
+    public void ShootAt(Pawn target, float rof, float muzzleVelocity)
     {
         if (!m_GunfireFX.isPlaying)
         {
             var main = m_GunfireFX.main;
-            main.startSpeed = rof;
+            main.startSpeed = muzzleVelocity;
+            var emission = m_GunfireFX.emission;
+            emission.rateOverTime = rof;
+
             m_GunfireFX.Play();
         }
     }

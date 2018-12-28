@@ -9521,6 +9521,7 @@ MonoBehaviour:
     name: AK-47
     damage: 10
     rof: 15
+    muzzleVelocity: 15
   m_AimTime: 2
   m_TempWaypointListParent: {fileID: 0}
 --- !u!114 &3192168973423267289

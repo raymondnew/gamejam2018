@@ -8,6 +8,7 @@ public struct MainWeapon
     public string name;
     public float damage;
     public float rof;
+    public float muzzleVelocity;
 }
 
 public class Item : MonoBehaviour

@@ -5011,6 +5011,7 @@ MonoBehaviour:
     name: M-16
     damage: 10
     rof: 15
+    muzzleVelocity: 15
   m_AimTime: 1
   m_TempWaypointListParent: {fileID: 0}
 --- !u!114 &1731560841
