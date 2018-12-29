@@ -24,8 +24,8 @@ public class LevelManager : MonoBehaviour
 
     public static LayerMask LOS_Layer { get { return (g_Inst != null) ? (LayerMask)(WalkableLayer | ObstacleLayer | CharacterLayer | EnemiesLayer) : (LayerMask)0; } }
 
-    public static LayerMask LOS_Layer_BLUE { get { return (g_Inst != null) ? (LayerMask)(WalkableLayer | ObstacleLayer | CharacterLayer) : (LayerMask)0; } }
-    public static LayerMask LOS_Layer_RED { get { return (g_Inst != null) ? (LayerMask)(WalkableLayer | ObstacleLayer | EnemiesLayer) : (LayerMask)0; } }
+    public static LayerMask LOS_Layer_BLUE { get { return (g_Inst != null) ? (LayerMask)(WalkableLayer | ObstacleLayer | EnemiesLayer) : (LayerMask)0; } }
+    public static LayerMask LOS_Layer_RED { get { return (g_Inst != null) ? (LayerMask)(WalkableLayer | ObstacleLayer | CharacterLayer) : (LayerMask)0; } }
 
     private int m_FloorNum = 0;
     public static int FloorNum { get { return (g_Inst != null) ? g_Inst.m_FloorNum : 0; } }

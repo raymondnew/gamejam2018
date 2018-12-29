@@ -36,8 +36,7 @@ public class MovePawn : MonoBehaviour
     {
         pawnName = GetComponent<Pawn>().m_name;
         ui_plan = FindObjectOfType<UI_Planning>();
-        if (ui_plan != null)
-            ui_WaypointList = ui_plan.GetUIWaypointMember(pawnName);
+        ui_WaypointList = ui_plan.GetUIWaypointMember(pawnName);
 
     }
 
