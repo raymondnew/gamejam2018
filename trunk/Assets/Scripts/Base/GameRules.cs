@@ -16,6 +16,24 @@ public struct GameProfile
     public List<string> m_LossConditions;
 }
 
+public struct LevelSettings
+{
+    public float m_TimeLimit;
+
+    public void SetSettings(float timeLimit = 0.0f)
+    {
+        m_TimeLimit = 0.0f;
+    }
+
+    public GameRules.EndCondition CheckSettings(float timeElapsed)
+    {
+        if (timeElapsed > m_TimeLimit)
+            return GameRules.EndCondition.Loss;
+
+        return GameRules.EndCondition.NoEnd;
+    }
+}
+
 public class GameRules : MonoBehaviour
 {
     public delegate void EndGame(EndCondition endCondition);
@@ -31,6 +49,8 @@ public class GameRules : MonoBehaviour
     List<IGameRule> m_WinConditions = new List<IGameRule>();
     List<IGameRule> m_LossConditions = new List<IGameRule>();
 
+    LevelSettings m_LevelSettings;
+
     [SerializeField]
     bool m_LoadFromTempProfileLibrary = true;
 
@@ -43,7 +63,20 @@ public class GameRules : MonoBehaviour
     bool m_Loaded = false;
     EndCondition m_CurrentCondition = EndCondition.NoEnd;
 
+    float m_StartTime = 0.0f;
 
+    bool m_Begin = false;
+
+    private void Awake()
+    {
+        PlanningManager.OnBegin += BeginGame;
+    }
+
+    void BeginGame()
+    {
+        m_StartTime = Time.time;
+        m_Begin = true;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -55,8 +88,10 @@ public class GameRules : MonoBehaviour
     {
         if (!m_Loaded)
         {
-            if (m_LoadFromTempProfileLibrary && m_TempProfileLibraryIndex >= 0 && m_TempProfileLibraryIndex < m_TempProfileLibrary.Count)
-                ProcessGameProfile(m_TempProfileLibrary[m_TempProfileLibraryIndex]);
+            //if (m_LoadFromTempProfileLibrary && m_TempProfileLibraryIndex >= 0 && m_TempProfileLibraryIndex < m_TempProfileLibrary.Count)
+            //    ProcessGameProfile(m_TempProfileLibrary[m_TempProfileLibraryIndex]);
+            m_LevelSettings = StateManager.GetSelectedLevelSettings;
+            ProcessGameProfile(StateManager.GetSelectedGameProfile);
 
             foreach (IGameRule gameRule in m_WinConditions)
                 gameRule.Init();
@@ -65,6 +100,9 @@ public class GameRules : MonoBehaviour
 
             m_Loaded = true;
         }
+
+        if (!m_Begin)
+            return;
 
         if (m_CurrentCondition == EndCondition.NoEnd)
         {
@@ -99,6 +137,8 @@ public class GameRules : MonoBehaviour
                 OnEndGame?.Invoke(EndCondition.Win);
                 return;
             }
+
+            m_CurrentCondition = m_LevelSettings.CheckSettings(Time.time - m_StartTime);
         }
     }
 

@@ -8,6 +8,13 @@ public class StateManager : MonoBehaviour
     public delegate void StateHandler(GameState gameState);
     static public event StateHandler OnNewState;
 
+    LevelSettings m_LevelSettings;
+
+    [SerializeField]
+    List<GameProfile> m_GameProfileLibrary = new List<GameProfile>();
+
+    GameProfile m_GameProfile;
+
     static public void InvokeNextState()
     {
         if (g_Inst != null)
@@ -34,6 +41,22 @@ public class StateManager : MonoBehaviour
 
     private GameState m_CurrentState;
     static public GameState CurrentState { get { return (g_Inst != null) ? g_Inst.m_CurrentState : GameState.NoState; } }
+
+    static public GameProfile []GetGameProfiles { get { return (g_Inst != null) ? g_Inst.m_GameProfileLibrary.ToArray() : null; } }
+    static public GameProfile GetSelectedGameProfile { get { return g_Inst.m_GameProfile; } }
+    static public LevelSettings GetSelectedLevelSettings { get { return g_Inst.m_LevelSettings; } }
+
+    static public void SetGameProfile(GameProfile gameProfile)
+    {
+        if (g_Inst)
+            g_Inst.m_GameProfile = gameProfile;
+    }
+
+    static public void SetLevelSettings(float timeLimit = 0.0f)
+    {
+        if (g_Inst)
+            g_Inst.m_LevelSettings.SetSettings(timeLimit);
+    }
 
     private void Awake()
     {
