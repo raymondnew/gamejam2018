@@ -14,6 +14,15 @@ public class StateManager : MonoBehaviour
             g_Inst.MoveToNextState();
     }
 
+    static public void StartGame()
+    {
+        if (g_Inst != null)
+        {
+            if (CurrentState == GameState.Staging)
+                InvokeNextState();
+        }
+    }
+
     public enum GameState
     {
         Menu,
