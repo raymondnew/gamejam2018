@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class UI_Planning : MonoBehaviour
 {
+
     UI_Waypoints m_alphaOne = new UI_Waypoints();
     UI_Waypoints m_alphaTwo = new UI_Waypoints();
     UI_Waypoints m_alphaThree = new UI_Waypoints();
@@ -14,12 +16,43 @@ public class UI_Planning : MonoBehaviour
     UI_Waypoints m_bravoThree = new UI_Waypoints();
     UI_Waypoints m_bravoFour = new UI_Waypoints();
 
-    
+    [SerializeField]
+    List<Pawn> m_ListOfFriendlyPawns = new List<Pawn>();
+
+    [SerializeField]
+    GameObject m_waypointGameObjectHolder;
+
+    [SerializeField]
+    CanvasGroup m_Planning_UI;
+
+    private bool init = false;
 
     public string m_selector;
     public UI_Waypoints m_uiwaypoint;
     public GameObject m_waypointPrefab;
 
+    public void InitPlanning()
+    {
+        if (m_ListOfFriendlyPawns.Count == 0)
+        {
+            Debug.LogError("No Friendly Pawns Found!");
+            return;
+        }
+
+        init = true;
+
+
+        foreach(Pawn element in m_ListOfFriendlyPawns)
+        {
+            m_selector = element.m_name;
+            SetWaypoint(false);
+
+        }
+        init = false;
+        m_selector = "";
+        Debug.Log("UI_Planning Init Complete");
+
+    }
 
     public void SetSelector(string selector)
     {
@@ -107,6 +140,21 @@ public class UI_Planning : MonoBehaviour
                 return;
         };
 
+        if(init)
+        {
+            UI_Waypoints.Waypoint initWaypointStruct = new UI_Waypoints.Waypoint();
+
+   
+            foreach (Pawn element in m_ListOfFriendlyPawns)
+                if (element.m_name == m_selector)
+                    initWaypointStruct.waypoint = element.transform.position;
+            initWaypointStruct.m_goCommand = 0;
+            selectedWaypoint.m_waypoints.Add(initWaypointStruct);
+            return;
+
+        }
+
+
         if (goCommand)
         {
             UI_Waypoints.Waypoint goWaypointStruct = new UI_Waypoints.Waypoint();
@@ -124,13 +172,20 @@ public class UI_Planning : MonoBehaviour
 
 
 
-        waypointName = waypointName + " Waypoint " + (selectedWaypoint.m_waypoints.Count + 1).ToString();
+        waypointName = waypointName + " - " + (selectedWaypoint.m_waypoints.Count).ToString();
         Vector3 waypoint = GetWaypoint();
 
         if (waypoint == Vector3.left)
             return;
+        
+        if (m_waypointGameObjectHolder == null)
+        {
+            Debug.LogError("WaypointGameObjectHolder not set!");
+            return;
+        }
 
-        GameObject prefab = Instantiate(m_waypointPrefab, waypoint, Quaternion.identity);
+
+        GameObject prefab = Instantiate(m_waypointPrefab, waypoint, Quaternion.identity,m_waypointGameObjectHolder.transform);
 
         prefab.GetComponent<LineRenderer>().positionCount = 0;
 
@@ -145,7 +200,9 @@ public class UI_Planning : MonoBehaviour
         else
             waypointStruct.m_goCommand = selectedWaypoint.m_waypoints[selectedWaypoint.m_waypoints.Count - 1].m_goCommand;
 
-        prefab.transform.Find("Name").GetComponent<TextMesh>().text = waypointName + "\n" + "Go Command " + waypointStruct.m_goCommand.ToString();
+
+
+        prefab.transform.Find("Name").GetComponent<TextMesh>().text = waypointName + "\n" + "Go: " + waypointStruct.m_goCommand.ToString();
 
         UI_Waypoints.Waypoint previous = new UI_Waypoints.Waypoint();
         previous.waypoint = new Vector3(-1, -1, -1);
@@ -272,7 +329,36 @@ public class UI_Planning : MonoBehaviour
         m_bravoTwo.m_name = "bravoTwo";
         m_bravoThree.m_name = "bravoThree";
         m_bravoFour.m_name = "bravoFour";
+
+        InitPlanning();
     }
+
+    public void ParseWaypoints()
+    {
+        UI_Waypoints waypointList;
+        Vector3 goCommand = new Vector3(-1, -1, -1);
+
+        foreach (Pawn element in m_ListOfFriendlyPawns)
+        {
+            m_selector = element.m_name;
+
+            waypointList = GetUIWaypointMember();
+
+            waypointList.m_waypoints.RemoveAll(T => T.waypoint == goCommand);
+
+            element.GetComponent<AgentBLUE>().SetupWaypoints(waypointList);
+
+        }
+        m_Planning_UI.alpha = 0;
+        m_Planning_UI.blocksRaycasts = false;
+        m_Planning_UI.interactable = false;
+
+        m_waypointGameObjectHolder.SetActive(false);
+
+        StateManager.StartGame();
+
+    }
+
 
     // Update is called once per frame
     void Update()

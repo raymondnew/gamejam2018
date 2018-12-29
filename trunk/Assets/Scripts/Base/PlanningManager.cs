@@ -75,7 +75,7 @@ public class PlanningManager : MonoBehaviour
         {
             m_Begin = true;
             OnBegin?.Invoke();
-            IssueNextGoCommand();
+            //IssueNextGoCommand();
         }
     }
 
