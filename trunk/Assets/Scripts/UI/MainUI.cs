@@ -15,6 +15,7 @@ public class MainUI : MonoBehaviour
 
     private void Awake()
     {
+        m_CnvGrp = GetComponent<CanvasGroup>();
         m_CnvGrp.alpha = 0.0f;
         m_CnvGrp.interactable = false;
         m_CnvGrp.blocksRaycasts = false;
