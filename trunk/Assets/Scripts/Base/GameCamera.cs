@@ -6,10 +6,10 @@ using UnityEngine;
 public class GameCamera : MonoBehaviour
 {
     [SerializeField]
-    float m_CameraMovementSpeed = 5.0f;
+    float m_CameraMovementSpeed = 10.0f;
 
     [SerializeField]
-    float m_CameraRotateSpeed = 5.0f;
+    float m_CameraRotateSpeed = 20.0f;
 
     private Camera m_ThisCamera;
 
