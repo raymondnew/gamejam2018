@@ -20,6 +20,7 @@ public class Agent : MonoBehaviour
         End
     }
 
+    [SerializeField]
     protected AgentState m_CurrentState = AgentState.Staging;
 
     protected Pawn m_Pawn;

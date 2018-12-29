@@ -60,10 +60,44 @@ public class UI_Planning : MonoBehaviour
 
     }
 
+    public void ReplaceUIWaypoint(UI_WaypointList.Waypoint replacement, string name)
+    {
+        GetUIWaypointMember(name).m_waypoints[0] = replacement;
+    }
+
     public UI_WaypointList GetUIWaypointMember()
     {
 
         switch (m_selector)
+        {
+            case "alphaOne":
+                return m_alphaOne;
+            case "alphaTwo":
+                return m_alphaTwo;
+            case "alphaThree":
+                return m_alphaThree;
+            case "alphaFour":
+                return m_alphaFour;
+            case "bravoOne":
+                return m_bravoOne;
+            case "bravoTwo":
+                return m_bravoTwo;
+            case "bravoThree":
+                return m_bravoThree;
+            case "bravoFour":
+                return m_bravoFour;
+            default:
+                return new UI_WaypointList();
+        }
+
+
+
+    }
+
+    public UI_WaypointList GetUIWaypointMember(string name)
+    {
+
+        switch (name)
         {
             case "alphaOne":
                 return m_alphaOne;
