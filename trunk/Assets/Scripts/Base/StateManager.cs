@@ -14,6 +14,7 @@ public class StateManager : MonoBehaviour
     List<GameProfile> m_GameProfileLibrary = new List<GameProfile>();
 
     GameProfile m_GameProfile;
+    string m_SelectedGameProfile;
 
     static public void InvokeNextState()
     {
@@ -42,20 +43,38 @@ public class StateManager : MonoBehaviour
     private GameState m_CurrentState;
     static public GameState CurrentState { get { return (g_Inst != null) ? g_Inst.m_CurrentState : GameState.NoState; } }
 
-    static public GameProfile []GetGameProfiles { get { return (g_Inst != null) ? g_Inst.m_GameProfileLibrary.ToArray() : null; } }
-    static public GameProfile GetSelectedGameProfile { get { return g_Inst.m_GameProfile; } }
     static public LevelSettings GetSelectedLevelSettings { get { return g_Inst.m_LevelSettings; } }
+    static public GameProfile []GetGameProfiles { get { return (g_Inst != null) ? g_Inst.m_GameProfileLibrary.ToArray() : null; } }
+    static public GameProfile GetSelectedGameProfile
+    {
+        get
+        {
+            return g_Inst.GetGameProfileByName(g_Inst.m_SelectedGameProfile);
+        }
+    }
 
     static public void SetGameProfile(GameProfile gameProfile)
     {
         if (g_Inst)
-            g_Inst.m_GameProfile = gameProfile;
+        {
+            g_Inst.m_SelectedGameProfile = gameProfile.name;
+        }
     }
 
     static public void SetLevelSettings(float timeLimit = 0.0f)
     {
         if (g_Inst)
             g_Inst.m_LevelSettings.SetSettings(timeLimit);
+    }
+
+    private GameProfile GetGameProfileByName(string name)
+    {
+        foreach(GameProfile gameProfile in m_GameProfileLibrary)
+        {
+            if (name == gameProfile.name)
+                return gameProfile;
+        }
+        return new GameProfile();
     }
 
     private void Awake()

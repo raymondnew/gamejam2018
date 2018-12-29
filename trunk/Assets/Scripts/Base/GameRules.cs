@@ -91,10 +91,10 @@ public class GameRules : MonoBehaviour
     {
         if (!m_Loaded)
         {
-            //if (m_LoadFromTempProfileLibrary && m_TempProfileLibraryIndex >= 0 && m_TempProfileLibraryIndex < m_TempProfileLibrary.Count)
-            //    ProcessGameProfile(m_TempProfileLibrary[m_TempProfileLibraryIndex]);
-            m_LevelSettings = StateManager.GetSelectedLevelSettings;
-            ProcessGameProfile(StateManager.GetSelectedGameProfile);
+            if (m_LoadFromTempProfileLibrary && m_TempProfileLibraryIndex >= 0 && m_TempProfileLibraryIndex < m_TempProfileLibrary.Count)
+                ProcessGameProfile(m_TempProfileLibrary[m_TempProfileLibraryIndex]);
+            //m_LevelSettings = StateManager.GetSelectedLevelSettings;
+            //ProcessGameProfile(StateManager.GetSelectedGameProfile);
 
             foreach (IGameRule gameRule in m_WinConditions)
                 gameRule.Init();
