@@ -27,6 +27,9 @@ public struct LevelSettings
 
     public GameRules.EndCondition CheckSettings(float timeElapsed)
     {
+        if (m_TimeLimit < 1.0f)
+            return GameRules.EndCondition.NoEnd;
+
         if (timeElapsed > m_TimeLimit)
             return GameRules.EndCondition.Loss;
 
