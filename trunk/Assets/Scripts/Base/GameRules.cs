@@ -27,10 +27,7 @@ public struct LevelSettings
 
     public GameRules.EndCondition CheckSettings(float timeElapsed)
     {
-        if (m_TimeLimit < 1.0f)
-            return GameRules.EndCondition.NoEnd;
-
-        if (timeElapsed > m_TimeLimit)
+        if (timeElapsed > m_TimeLimit && m_TimeLimit > 0.0f)
             return GameRules.EndCondition.Loss;
 
         return GameRules.EndCondition.NoEnd;
@@ -53,15 +50,6 @@ public class GameRules : MonoBehaviour
     List<IGameRule> m_LossConditions = new List<IGameRule>();
 
     LevelSettings m_LevelSettings;
-
-    [SerializeField]
-    bool m_LoadFromTempProfileLibrary = true;
-
-    [SerializeField]
-    List<GameProfile> m_TempProfileLibrary = new List<GameProfile>();
-
-    [SerializeField]
-    int m_TempProfileLibraryIndex = -1;
 
     bool m_Loaded = false;
     EndCondition m_CurrentCondition = EndCondition.NoEnd;
@@ -92,8 +80,6 @@ public class GameRules : MonoBehaviour
     {
         if (!m_Loaded)
         {
-            //if (m_LoadFromTempProfileLibrary && m_TempProfileLibraryIndex >= 0 && m_TempProfileLibraryIndex < m_TempProfileLibrary.Count)
-            //    ProcessGameProfile(m_TempProfileLibrary[m_TempProfileLibraryIndex]);
             m_LevelSettings = StateManager.GetSelectedLevelSettings;
             ProcessGameProfile(StateManager.GetSelectedGameProfile);
 
