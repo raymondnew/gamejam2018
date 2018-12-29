@@ -9518,11 +9518,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CurrentState: 0
+  m_Rank: 0
+  m_SquadNumber: 0
   m_MainWeapon:
     name: AK-47
     damage: 10
-    rof: 15
-    muzzleVelocity: 15
+    rof: 5
+    muzzleVelocity: 10
   m_AimTime: 2
   m_TempWaypointListParent: {fileID: 0}
 --- !u!114 &3192168973423267289

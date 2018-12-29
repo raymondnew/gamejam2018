@@ -95,7 +95,7 @@ public class MainUI : MonoBehaviour
         }
 
         float timeElapsed = Time.time - GameRules.StartTime;
-        float timeLeft = timeLimit - timeElapsed;
+        float timeLeft = Mathf.Max(timeLimit - timeElapsed, 0.0f);
         m_TimeLimitIndicator.text = "TIME LIMIT: " + timeLeft.ToString("F2");
     }
 }
