@@ -13,14 +13,19 @@ public class GameCamera : MonoBehaviour
 
     private Camera m_ThisCamera;
 
+    private float m_InitialHeight;
+    private int m_CurrentLevel;
+
     void Awake()
     {
+        m_CurrentLevel = 1;
         m_ThisCamera = GetComponent<Camera>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        m_InitialHeight = transform.position.y;
     }
 
     // Update is called once per frame
@@ -28,6 +33,7 @@ public class GameCamera : MonoBehaviour
     {
         HandleTranslation();
         HandleRotation();
+        HandleLevel();
     }
 
     void HandleTranslation()
@@ -69,5 +75,23 @@ public class GameCamera : MonoBehaviour
         //Debug.Log("Cam look point: " + lookPoint);
 
         return lookPoint;
+    }
+
+    void HandleLevel()
+    {
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            if (LevelManager.FloorNum > m_CurrentLevel)
+                m_CurrentLevel++;
+
+            transform.position = new Vector3(transform.position.x, m_InitialHeight + (Level_Base.FloorHeight * m_CurrentLevel), transform.position.z);
+        }
+        else if (Input.GetKeyUp(KeyCode.F))
+        {
+            if (m_CurrentLevel > 1)
+                m_CurrentLevel--;
+
+            transform.position = new Vector3(transform.position.x, m_InitialHeight + (Level_Base.FloorHeight * m_CurrentLevel), transform.position.z);
+        }
     }
 }
