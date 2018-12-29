@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MovePawn : MonoBehaviour
 {
@@ -13,16 +14,15 @@ public class MovePawn : MonoBehaviour
     private Vector3 keepGrounded = new Vector3(1, 0, 1);
     private string pawnName;
     private UI_Planning ui_plan;
-
+    private UI_UnitSelect unitSelect;
 
     // Start is called before the first frame update
     void Start()
     {
         GetWaypointList();
-
         PlanningManager.OnBegin += DestroySelf;
 
-
+        unitSelect = FindObjectOfType<UI_UnitSelect>();
 
     }
 
@@ -74,6 +74,12 @@ public class MovePawn : MonoBehaviour
 
     }
 
+    private void Selector()
+    {
+        unitSelect.AddSelection(transform);
+
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -83,10 +89,21 @@ public class MovePawn : MonoBehaviour
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray,out hit))
             {
+                
                 if (hit.collider == m_collider)
                 {
+                    unitSelect.RemoveSelection();
+
+                    
+
+                    Selector();
                     StartCoroutine(movePosition());
+
                     //transform.position = Vector3.Scale(hit.transform.position,keepGrounded);
+                }
+                else if (transform == unitSelect.currentTransform)
+                {
+                    unitSelect.RemoveSelection(transform);
                 }
             }
         }

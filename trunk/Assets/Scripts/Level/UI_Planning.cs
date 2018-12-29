@@ -17,7 +17,7 @@ public class UI_Planning : MonoBehaviour
     UI_WaypointList m_bravoFour = new UI_WaypointList();
 
     [SerializeField]
-    List<Pawn> m_ListOfFriendlyPawns = new List<Pawn>();
+    public List<Pawn> m_ListOfFriendlyPawns = new List<Pawn>();
 
     [SerializeField]
     GameObject m_waypointGameObjectHolder;
@@ -129,7 +129,71 @@ public class UI_Planning : MonoBehaviour
 
     }
 
+    public void SetWaypointNew()
+    {
 
+        UI_UnitSelect unitSelect = FindObjectOfType<UI_UnitSelect>();
+        UI_WaypointList selectedWaypoint;
+        string waypointName = "";
+        switch (m_selector)
+        {
+            case "alphaOne":
+                waypointName = "A1";
+                selectedWaypoint = m_alphaOne;
+                break;
+            case "alphaTwo":
+                waypointName = "A2";
+                selectedWaypoint = m_alphaTwo;
+                break;
+            case "alphaThree":
+                waypointName = "A3";
+                selectedWaypoint = m_alphaThree;
+                break;
+            case "alphaFour":
+                waypointName = "A4";
+                selectedWaypoint = m_alphaFour;
+                break;
+            case "bravoOne":
+                waypointName = "B1";
+                selectedWaypoint = m_bravoOne;
+                break;
+            case "bravoTwo":
+                waypointName = "B2";
+                selectedWaypoint = m_bravoTwo;
+                break;
+            case "bravoThree":
+                waypointName = "B3";
+                selectedWaypoint = m_bravoThree;
+                break;
+            case "bravoFour":
+                waypointName = "B4";
+                selectedWaypoint = m_bravoFour;
+                break;
+            default:
+                return;
+        };
+
+        waypointName = waypointName + " - " + (selectedWaypoint.m_waypoints.Count).ToString();
+        Vector3 waypoint = GetWaypoint();
+
+        GameObject prefab = Instantiate(m_waypointPrefab, waypoint, Quaternion.identity, m_waypointGameObjectHolder.transform);
+
+        prefab.GetComponent<LineRenderer>().positionCount = 0;
+
+        UI_WaypointList.Waypoint waypointStruct = new UI_WaypointList.Waypoint();
+        waypointStruct.position = waypoint;
+        waypointStruct.m_prefab = prefab.transform;
+        waypointStruct.m_goCommand = unitSelect.GetCurrentCommandLevel();
+
+        prefab.transform.Find("Name").GetComponent<TextMesh>().text = waypointName + "\n" + "Go: " + waypointStruct.m_goCommand.ToString();
+
+        UI_WaypointList.Waypoint previous = selectedWaypoint.m_waypoints[selectedWaypoint.m_waypoints.Count - 1];
+
+        StartLine(waypointStruct, previous);
+
+        selectedWaypoint.m_waypoints.Add(waypointStruct);
+
+    }
 
 
     public void SetWaypoint(bool goCommand)
@@ -401,7 +465,8 @@ public class UI_Planning : MonoBehaviour
         {
             if (m_selector != "")
             {
-                SetWaypoint(false);
+                SetWaypointNew();
+                //SetWaypoint(false);
             }
 
         }
