@@ -9,6 +9,9 @@ public class Pawn : MonoBehaviour
     private NavMeshAgent m_NavAgent;
 
     [SerializeField]
+    string m_name = "";
+
+    [SerializeField]
     ParticleSystem m_GunfireFX = null;
 
     [SerializeField]
