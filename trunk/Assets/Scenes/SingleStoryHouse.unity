@@ -21492,7 +21492,7 @@ MonoBehaviour:
   - {fileID: 426291755}
   - {fileID: 1688279394}
   m_waypointGameObjectHolder: {fileID: 57190143}
-  m_Planning_UI: {fileID: 0}
+  m_Planning_UI: {fileID: 1307163522}
   m_selector: 
   m_waypointPrefab: {fileID: 8617367166508133838, guid: a872358eb3426f041a3a39380854ac72,
     type: 3}

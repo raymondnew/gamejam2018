@@ -7,14 +7,14 @@ using UnityEngine.UI;
 public class UI_Planning : MonoBehaviour
 {
 
-    UI_Waypoints m_alphaOne = new UI_Waypoints();
-    UI_Waypoints m_alphaTwo = new UI_Waypoints();
-    UI_Waypoints m_alphaThree = new UI_Waypoints();
-    UI_Waypoints m_alphaFour = new UI_Waypoints();
-    UI_Waypoints m_bravoOne = new UI_Waypoints();
-    UI_Waypoints m_bravoTwo = new UI_Waypoints();
-    UI_Waypoints m_bravoThree = new UI_Waypoints();
-    UI_Waypoints m_bravoFour = new UI_Waypoints();
+    UI_WaypointList m_alphaOne = new UI_WaypointList();
+    UI_WaypointList m_alphaTwo = new UI_WaypointList();
+    UI_WaypointList m_alphaThree = new UI_WaypointList();
+    UI_WaypointList m_alphaFour = new UI_WaypointList();
+    UI_WaypointList m_bravoOne = new UI_WaypointList();
+    UI_WaypointList m_bravoTwo = new UI_WaypointList();
+    UI_WaypointList m_bravoThree = new UI_WaypointList();
+    UI_WaypointList m_bravoFour = new UI_WaypointList();
 
     [SerializeField]
     List<Pawn> m_ListOfFriendlyPawns = new List<Pawn>();
@@ -28,7 +28,7 @@ public class UI_Planning : MonoBehaviour
     private bool init = false;
 
     public string m_selector;
-    public UI_Waypoints m_uiwaypoint;
+    public UI_WaypointList m_uiwaypoint;
     public GameObject m_waypointPrefab;
 
     public void InitPlanning()
@@ -60,7 +60,7 @@ public class UI_Planning : MonoBehaviour
 
     }
 
-    public UI_Waypoints GetUIWaypointMember()
+    public UI_WaypointList GetUIWaypointMember()
     {
 
         switch (m_selector)
@@ -82,7 +82,7 @@ public class UI_Planning : MonoBehaviour
             case "bravoFour":
                 return m_bravoFour;
             default:
-                return new UI_Waypoints();
+                return new UI_WaypointList();
         }
 
 
@@ -100,7 +100,7 @@ public class UI_Planning : MonoBehaviour
 
     public void SetWaypoint(bool goCommand)
     {
-        UI_Waypoints selectedWaypoint;
+        UI_WaypointList selectedWaypoint;
         string waypointName = "";
         switch (m_selector)
         {
@@ -142,12 +142,12 @@ public class UI_Planning : MonoBehaviour
 
         if(init)
         {
-            UI_Waypoints.Waypoint initWaypointStruct = new UI_Waypoints.Waypoint();
+            UI_WaypointList.Waypoint initWaypointStruct = new UI_WaypointList.Waypoint();
 
    
             foreach (Pawn element in m_ListOfFriendlyPawns)
                 if (element.m_name == m_selector)
-                    initWaypointStruct.waypoint = element.transform.position;
+                    initWaypointStruct.position = element.transform.position;
             initWaypointStruct.m_goCommand = 0;
             selectedWaypoint.m_waypoints.Add(initWaypointStruct);
             return;
@@ -157,8 +157,8 @@ public class UI_Planning : MonoBehaviour
 
         if (goCommand)
         {
-            UI_Waypoints.Waypoint goWaypointStruct = new UI_Waypoints.Waypoint();
-            goWaypointStruct.waypoint = new Vector3(-1,-1,-1);
+            UI_WaypointList.Waypoint goWaypointStruct = new UI_WaypointList.Waypoint();
+            goWaypointStruct.position = new Vector3(-1,-1,-1);
             
 
             if (selectedWaypoint.m_waypoints.Count == 0)
@@ -192,8 +192,8 @@ public class UI_Planning : MonoBehaviour
     
         
 
-        UI_Waypoints.Waypoint waypointStruct = new UI_Waypoints.Waypoint();
-        waypointStruct.waypoint = waypoint;
+        UI_WaypointList.Waypoint waypointStruct = new UI_WaypointList.Waypoint();
+        waypointStruct.position = waypoint;
         waypointStruct.m_prefab = prefab.transform;
         if (selectedWaypoint.m_waypoints.Count == 0)
             waypointStruct.m_goCommand = 0;
@@ -204,8 +204,8 @@ public class UI_Planning : MonoBehaviour
 
         prefab.transform.Find("Name").GetComponent<TextMesh>().text = waypointName + "\n" + "Go: " + waypointStruct.m_goCommand.ToString();
 
-        UI_Waypoints.Waypoint previous = new UI_Waypoints.Waypoint();
-        previous.waypoint = new Vector3(-1, -1, -1);
+        UI_WaypointList.Waypoint previous = new UI_WaypointList.Waypoint();
+        previous.position = new Vector3(-1, -1, -1);
 
         bool foundPreviousWaypoint = false;
         for(int i = selectedWaypoint.m_waypoints.Count -1; i >= 0; i--)
@@ -224,21 +224,21 @@ public class UI_Planning : MonoBehaviour
 
     }
 
-    public bool IsWaypoint(UI_Waypoints.Waypoint test)
+    public bool IsWaypoint(UI_WaypointList.Waypoint test)
     {
-        if (test.waypoint.x == -1f && test.waypoint.y == -1f && test.waypoint.z == -1f)
+        if (test.position.x == -1f && test.position.y == -1f && test.position.z == -1f)
             return false;
         else
             return true;
     }
 
-    public void StartLine(UI_Waypoints.Waypoint current , UI_Waypoints.Waypoint previous)
+    public void StartLine(UI_WaypointList.Waypoint current , UI_WaypointList.Waypoint previous)
     {
         if (!IsWaypoint(previous))
             return;
         NavMeshAgent navmesh = current.m_prefab.GetComponent<NavMeshAgent>();
         NavMeshPath path = new NavMeshPath();
-        if (navmesh.CalculatePath(previous.waypoint, path))
+        if (navmesh.CalculatePath(previous.position, path))
         {
             StartCoroutine(DrawLine(navmesh, path));
         }
@@ -269,16 +269,16 @@ public class UI_Planning : MonoBehaviour
     {
         if (m_selector == "")
             return;
-        UI_Waypoints deleteWaypoint = GetUIWaypointMember();
+        UI_WaypointList deleteWaypoint = GetUIWaypointMember();
 
         if (deleteWaypoint.m_waypoints.Count == 1)
             return;
 
-        UI_Waypoints.Waypoint deleter = deleteWaypoint.m_waypoints[deleteWaypoint.m_waypoints.Count - 1];
+        UI_WaypointList.Waypoint deleter = deleteWaypoint.m_waypoints[deleteWaypoint.m_waypoints.Count - 1];
 
-        if (deleteWaypoint.m_waypoints[deleteWaypoint.m_waypoints.Count - 1].waypoint.x == -1f)
-            if (deleteWaypoint.m_waypoints[deleteWaypoint.m_waypoints.Count - 1].waypoint.y == -1f)
-                if (deleteWaypoint.m_waypoints[deleteWaypoint.m_waypoints.Count - 1].waypoint.z == -1f)
+        if (deleteWaypoint.m_waypoints[deleteWaypoint.m_waypoints.Count - 1].position.x == -1f)
+            if (deleteWaypoint.m_waypoints[deleteWaypoint.m_waypoints.Count - 1].position.y == -1f)
+                if (deleteWaypoint.m_waypoints[deleteWaypoint.m_waypoints.Count - 1].position.z == -1f)
                 {
                     deleteWaypoint.m_waypoints.Remove(deleter);
                     return;
@@ -291,7 +291,7 @@ public class UI_Planning : MonoBehaviour
 
     }
 
-    public void DeleteWaypoint(UI_Waypoints.Waypoint waypoint)
+    public void DeleteWaypoint(UI_WaypointList.Waypoint waypoint)
     {
         Destroy(waypoint.m_prefab.gameObject);
     }
@@ -335,7 +335,7 @@ public class UI_Planning : MonoBehaviour
 
     public void ParseWaypoints()
     {
-        UI_Waypoints waypointList;
+        UI_WaypointList waypointList;
         Vector3 goCommand = new Vector3(-1, -1, -1);
 
         foreach (Pawn element in m_ListOfFriendlyPawns)
@@ -344,7 +344,7 @@ public class UI_Planning : MonoBehaviour
 
             waypointList = GetUIWaypointMember();
 
-            waypointList.m_waypoints.RemoveAll(T => T.waypoint == goCommand);
+            waypointList.m_waypoints.RemoveAll(T => T.position == goCommand);
 
             element.GetComponent<AgentBLUE>().SetupWaypoints(waypointList);
 

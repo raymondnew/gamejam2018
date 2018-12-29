@@ -28,16 +28,16 @@ public class AgentBLUE : Agent
 
         if(m_TempWaypointListParent != null)
         {
-            UI_Waypoints newWaypointsData = new UI_Waypoints();
-            newWaypointsData.m_waypoints = new List<UI_Waypoints.Waypoint>();
+            UI_WaypointList newWaypointsData = new UI_WaypointList();
+            newWaypointsData.m_waypoints = new List<UI_WaypointList.Waypoint>();
             foreach (Transform trans in m_TempWaypointListParent)
             {
                 Level_Waypoint_BLUE WP = trans.GetComponent<Level_Waypoint_BLUE>();
                 if (WP != null)
                 {
-                    UI_Waypoints.Waypoint newWPdata = new UI_Waypoints.Waypoint();
+                    UI_WaypointList.Waypoint newWPdata = new UI_WaypointList.Waypoint();
                     newWPdata.m_goCommand = WP.m_GoCommand;
-                    newWPdata.waypoint = trans.position;
+                    newWPdata.position = trans.position;
                     newWaypointsData.m_waypoints.Add(newWPdata);
                 }
             }
@@ -46,19 +46,19 @@ public class AgentBLUE : Agent
         }
     }
 
-    public void SetupWaypoints(UI_Waypoints waypointData)
+    public void SetupWaypoints(UI_WaypointList waypointData)
     {
         if (m_CommandWaypointsSet)
             return;
 
         m_GoCommandWaypointList.Clear();
-        foreach (UI_Waypoints.Waypoint wp in waypointData.m_waypoints)
+        foreach (UI_WaypointList.Waypoint wp in waypointData.m_waypoints)
         {
             if (wp.m_goCommand > PlanningManager.Instance.GoCommandsCount)
                 PlanningManager.Instance.AddNewGoCommand(wp.m_goCommand - PlanningManager.Instance.GoCommandsCount + 1);
             GoCommandWaypoint newWP;
             newWP.goCommand = wp.m_goCommand;
-            newWP.waypoint = wp.waypoint;
+            newWP.waypoint = wp.position;
             m_GoCommandWaypointList.Add(newWP);
         }
 
