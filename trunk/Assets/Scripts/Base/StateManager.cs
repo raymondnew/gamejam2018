@@ -84,8 +84,6 @@ public class StateManager : MonoBehaviour
         else
         {
             g_Inst = this;
-            if (m_GameProfileLibrary.Count > 0)
-                m_SelectedGameProfile = m_GameProfileLibrary[0].name;
             DontDestroyOnLoad(gameObject);
         }
     }
