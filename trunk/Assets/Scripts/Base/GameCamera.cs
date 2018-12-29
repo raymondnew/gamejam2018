@@ -65,10 +65,10 @@ public class GameCamera : MonoBehaviour
         float angle = Vector3.Angle(transform.forward, Vector3.forward);
         //Debug.Log("Cam angle: " + angle);
 
-        float length = Mathf.Atan(angle * Mathf.Deg2Rad) * transform.position.y;
+        float length = Mathf.Atan(angle * Mathf.Deg2Rad) * m_InitialHeight;
         //Debug.Log("Cam length: " + length);
 
-        float distance = Mathf.Sqrt((length * length) + (transform.position.y * transform.position.y));
+        float distance = Mathf.Sqrt((length * length) + (m_InitialHeight * m_InitialHeight));
         //Debug.Log("Cam distance: " + distance);
 
         Vector3 lookPoint = transform.position + (transform.forward * distance);
