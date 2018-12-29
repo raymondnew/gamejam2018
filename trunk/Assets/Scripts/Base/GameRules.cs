@@ -123,8 +123,8 @@ public class GameRules : MonoBehaviour
             }
             if (lossCondition)
             {
-                m_CurrentCondition = EndCondition.Win;
-                OnEndGame?.Invoke(EndCondition.Win);
+                m_CurrentCondition = EndCondition.Loss;
+                OnEndGame?.Invoke(EndCondition.Loss);
                 return;
             }
 
