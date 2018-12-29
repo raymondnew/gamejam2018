@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: A1
 --- !u!1 &644844233
 GameObject:
   m_ObjectHideFlags: 0
@@ -5145,6 +5145,7 @@ GameObject:
   - component: {fileID: 5926428709749132171}
   - component: {fileID: 1731560841}
   - component: {fileID: 1731560842}
+  - component: {fileID: 1501527888}
   m_Layer: 11
   m_Name: Friendly Pawn
   m_TagString: Untagged
@@ -5184,6 +5185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b96ac52011cc74740a00c71ea7ca6cc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CurrentState: 0
   m_MainWeapon:
     name: M-16
     damage: 10
@@ -5203,7 +5205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d33346ab484a92f4d863dedc72192a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_name: 
+  m_name: alphaOne
   m_GunfireFX: {fileID: 5108567635401146768}
   m_HitFX: {fileID: 1426978117}
   m_FOV: 90
@@ -5234,6 +5236,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1501527888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4874725690668619038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad3c4b123b1454284904309986e766, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_collider: {fileID: 5764928625200527239}
 --- !u!1 &7472833453740841604
 GameObject:
   m_ObjectHideFlags: 0

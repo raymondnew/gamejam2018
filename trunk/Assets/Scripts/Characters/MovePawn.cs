@@ -14,14 +14,22 @@ public class MovePawn : MonoBehaviour
     private string pawnName;
     private UI_Planning ui_plan;
 
+
     // Start is called before the first frame update
     void Start()
     {
         GetWaypointList();
 
+        PlanningManager.OnBegin += DestroySelf;
 
 
 
+    }
+
+    void DestroySelf()
+    {
+        PlanningManager.OnBegin -= DestroySelf;
+        Destroy(this);
     }
 
     private void GetWaypointList()
