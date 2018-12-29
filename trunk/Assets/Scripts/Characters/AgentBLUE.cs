@@ -54,7 +54,7 @@ public class AgentBLUE : Agent
         m_GoCommandWaypointList.Clear();
         foreach (UI_WaypointList.Waypoint wp in waypointData.m_waypoints)
         {
-            if (wp.m_goCommand > PlanningManager.Instance.GoCommandsCount)
+            if (wp.m_goCommand >= PlanningManager.Instance.GoCommandsCount)
                 PlanningManager.Instance.AddNewGoCommand(wp.m_goCommand - PlanningManager.Instance.GoCommandsCount + 1);
             GoCommandWaypoint newWP;
             newWP.goCommand = wp.m_goCommand;

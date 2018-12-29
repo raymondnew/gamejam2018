@@ -85,6 +85,7 @@ public class StateManager : MonoBehaviour
         {
             g_Inst = this;
             DontDestroyOnLoad(gameObject);
+            m_SelectedGameProfile = m_GameProfileLibrary[0].name;
         }
     }
 

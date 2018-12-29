@@ -11,6 +11,9 @@ public class MainUI : MonoBehaviour
     [SerializeField]
     Text m_TimeLimitIndicator;
 
+    [SerializeField]
+    AgentStatus m_AgentStatus;
+
     bool m_Begin = false;
 
     private void Awake()
@@ -28,12 +31,12 @@ public class MainUI : MonoBehaviour
         m_CnvGrp.interactable = true;
         m_CnvGrp.blocksRaycasts = true;
         m_Begin = true;
+        InitializeAgentStatuses();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -43,6 +46,43 @@ public class MainUI : MonoBehaviour
             return;
 
         UpdateTimeLimitIndicator();
+    }
+
+    void InitializeAgentStatuses()
+    {
+        int count = 0;
+        int squadCount = 0;
+        List<AgentBLUE> agentList = new List<AgentBLUE>(FindObjectsOfType<AgentBLUE>());
+        agentList.Sort(delegate (AgentBLUE x, AgentBLUE y)
+        {
+            return x.m_Rank.CompareTo(y.m_Rank);
+        });
+
+        Dictionary<int, List<AgentBLUE>> squadMap = new Dictionary<int, List<AgentBLUE>>();
+        foreach (AgentBLUE agent in agentList)
+        {
+            if (!squadMap.ContainsKey(agent.m_SquadNumber))
+                squadMap.Add(agent.m_SquadNumber, new List<AgentBLUE>());
+
+            squadMap[agent.m_SquadNumber].Add(agent);
+        }
+        foreach (int squadNum in squadMap.Keys)
+        {
+            int i = 0;
+            squadMap[squadNum].Sort(delegate (AgentBLUE x, AgentBLUE y)
+            {
+                return x.m_Rank.CompareTo(y.m_Rank);
+            });
+            foreach (AgentBLUE agent in squadMap[squadNum])
+            {
+                Color color = ColorSystem.Instance.SquadColors[squadCount].m_Colors[i];
+                AgentStatus status = (count == 0) ? m_AgentStatus : Instantiate(m_AgentStatus, m_AgentStatus.transform.parent);
+                status.SetAgent(agent, color);
+                count++;
+                i++;
+            }
+            squadCount++;
+        }
     }
 
     void UpdateTimeLimitIndicator()

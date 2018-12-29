@@ -18,8 +18,6 @@ public class PlanningManager : MonoBehaviour
 
     private bool m_Begin = false;
 
-    public int m_TempGoCommandCount = 0;
-
     [SerializeField]
     bool m_Debug = true;
 
@@ -32,12 +30,6 @@ public class PlanningManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        AddNewGoCommand(m_TempGoCommandCount);
     }
 
     // Update is called once per frame
@@ -75,7 +67,6 @@ public class PlanningManager : MonoBehaviour
         {
             m_Begin = true;
             OnBegin?.Invoke();
-            //IssueNextGoCommand();
         }
     }
 

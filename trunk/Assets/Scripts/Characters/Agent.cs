@@ -11,7 +11,7 @@ public class Agent : MonoBehaviour
         RED
     }
 
-    protected enum AgentState
+    public enum AgentState
     {
         Staging,
         Holding,
@@ -22,10 +22,14 @@ public class Agent : MonoBehaviour
 
     [SerializeField]
     protected AgentState m_CurrentState = AgentState.Staging;
+    public AgentState CurrentState { get { return m_CurrentState; } }
 
     protected Pawn m_Pawn;
 
     protected AgentFaction m_Faction;
+
+    public int m_Rank = 0;
+    public int m_SquadNumber = 0;
 
     [SerializeField]
     protected MainWeapon m_MainWeapon;

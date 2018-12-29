@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: A1
+  m_Text: B3
 --- !u!1 &644844233
 GameObject:
   m_ObjectHideFlags: 0
@@ -5186,6 +5186,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CurrentState: 0
+  m_Rank: 0
+  m_SquadNumber: 0
   m_MainWeapon:
     name: M-16
     damage: 10
@@ -5205,7 +5207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d33346ab484a92f4d863dedc72192a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_name: alphaOne
+  m_name: bravoThree
   m_GunfireFX: {fileID: 5108567635401146768}
   m_HitFX: {fileID: 1426978117}
   m_FOV: 90

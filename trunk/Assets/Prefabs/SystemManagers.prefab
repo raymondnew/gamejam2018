@@ -347,7 +347,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b77df9592b692c429547287852388de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_GameProfileLibrary: []
+  m_GameProfileLibrary:
+  - name: Elimination
+    m_WinConditions:
+    - NoREDLeftRule
+    m_LossConditions:
+    - NoBLUELeftRule
 --- !u!1 &7894151659514109192
 GameObject:
   m_ObjectHideFlags: 0
