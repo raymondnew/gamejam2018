@@ -40,8 +40,8 @@ public class GameCamera : MonoBehaviour
     {
         Vector3 camPosition = transform.position;
 
-        float camZ = Input.GetAxis("Horizontal") * Time.deltaTime * m_CameraMovementSpeed;
-        float camX = Input.GetAxis("Vertical") * Time.deltaTime * m_CameraMovementSpeed;
+        float camZ = Input.GetAxis("Horizontal") * TimeManager.DeltaTime * m_CameraMovementSpeed;
+        float camX = Input.GetAxis("Vertical") * TimeManager.DeltaTime * m_CameraMovementSpeed;
 
         Vector3 forwardDir = (new Vector3(transform.forward.x, 0.0f, transform.forward.z)).normalized;
         Vector3 newCamPosition = camPosition + (forwardDir * camX);
@@ -57,7 +57,7 @@ public class GameCamera : MonoBehaviour
         if (Input.GetKey(KeyCode.E))
             rotation--;
 
-        transform.RotateAround(GetCamLookPoint(), Vector3.up, rotation * Time.deltaTime * m_CameraRotateSpeed);
+        transform.RotateAround(GetCamLookPoint(), Vector3.up, rotation * TimeManager.DeltaTime * m_CameraRotateSpeed);
     }
 
     Vector3 GetCamLookPoint()

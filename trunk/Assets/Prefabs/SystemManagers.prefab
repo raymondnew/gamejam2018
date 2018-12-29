@@ -1,5 +1,130 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2124939591
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2124939592}
+  - component: {fileID: 2124939593}
+  m_Layer: 0
+  m_Name: ColorSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2124939592
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124939591}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1662629677756002475}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2124939593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124939591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 863b830c0fab9664688ef962a2aba334, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SquadColors:
+  - name: Alpha
+    m_Colors:
+    - serializedVersion: 2
+      rgba: 4278190233
+    - serializedVersion: 2
+      rgba: 4278190335
+    - serializedVersion: 2
+      rgba: 4284901119
+    - serializedVersion: 2
+      rgba: 4291611903
+  - name: Bravo
+    m_Colors:
+    - serializedVersion: 2
+      rgba: 4278229248
+    - serializedVersion: 2
+      rgba: 4278255360
+    - serializedVersion: 2
+      rgba: 4284940134
+    - serializedVersion: 2
+      rgba: 4291624908
+  - name: Charlie
+    m_Colors:
+    - serializedVersion: 2
+      rgba: 4288217088
+    - serializedVersion: 2
+      rgba: 4294901760
+    - serializedVersion: 2
+      rgba: 4294927974
+    - serializedVersion: 2
+      rgba: 4294954188
+  - name: Delta
+    m_Colors:
+    - serializedVersion: 2
+      rgba: 4278229401
+    - serializedVersion: 2
+      rgba: 4278255615
+    - serializedVersion: 2
+      rgba: 4284940287
+    - serializedVersion: 2
+      rgba: 4291624959
+  - name: Echo
+    m_Colors:
+    - serializedVersion: 2
+      rgba: 4288217241
+    - serializedVersion: 2
+      rgba: 4294902015
+    - serializedVersion: 2
+      rgba: 4294928127
+    - serializedVersion: 2
+      rgba: 4294954239
+  GoCommandColors:
+  - serializedVersion: 2
+    rgba: 4278209689
+  - serializedVersion: 2
+    rgba: 4278229324
+  - serializedVersion: 2
+    rgba: 4288256256
+  - serializedVersion: 2
+    rgba: 4288217164
+  - serializedVersion: 2
+    rgba: 4283170969
+  - serializedVersion: 2
+    rgba: 4278223103
+  - serializedVersion: 2
+    rgba: 4278255488
+  - serializedVersion: 2
+    rgba: 4294967040
+  - serializedVersion: 2
+    rgba: 4294901887
+  - serializedVersion: 2
+    rgba: 4286513407
+  - serializedVersion: 2
+    rgba: 4284920575
+  - serializedVersion: 2
+    rgba: 4284940210
+  - serializedVersion: 2
+    rgba: 4294967142
+  - serializedVersion: 2
+    rgba: 4294928050
+  - serializedVersion: 2
+    rgba: 4289881855
 --- !u!1 &1662629677756002484
 GameObject:
   m_ObjectHideFlags: 0
@@ -31,6 +156,8 @@ Transform:
   - {fileID: 1662629678791421959}
   - {fileID: 1662629679765149068}
   - {fileID: 634218236206719046}
+  - {fileID: 8479661948528412630}
+  - {fileID: 2124939592}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -86,6 +213,9 @@ MonoBehaviour:
   m_CharacterLayer:
     serializedVersion: 2
     m_Bits: 2048
+  m_EnemiesLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1662629678791421952
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,7 +260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TempGoCommandCount: 3
-  m_Debug: 1
+  m_Debug: 0
 --- !u!1 &1662629679765149069
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,14 +304,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b1c4cb10664e4d4a82efba2d1ab930f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LoadFromTempProfileLibrary: 1
-  m_TempProfileLibrary:
-  - name: Elimination
-    m_WinConditions:
-    - NoREDLeftRule
-    m_LossConditions:
-    - NoBLUELeftRule
-  m_TempProfileLibraryIndex: 0
 --- !u!1 &3841718441743694676
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,5 +345,49 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b77df9592b692c429547287852388de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_GameProfileLibrary: []
+--- !u!1 &7894151659514109192
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8479661948528412630}
+  - component: {fileID: 8154749613038481633}
+  m_Layer: 0
+  m_Name: TimeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8479661948528412630
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7894151659514109192}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1662629677756002475}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8154749613038481633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7894151659514109192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bd8ecd209e6926468376f9f636773bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

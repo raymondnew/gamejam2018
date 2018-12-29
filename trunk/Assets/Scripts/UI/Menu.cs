@@ -74,4 +74,9 @@ public class Menu : MonoBehaviour
 
         StateManager.SetLevelSettings(timeLimit);
     }
+
+    public void HandleQuit()
+    {
+        Application.Quit();
+    }
 }
