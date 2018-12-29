@@ -52,7 +52,7 @@ public class PlanningManager : MonoBehaviour
 
     public void IssueNextGoCommand()
     {
-        if (NextGoCommand > GoCommandsCount || !m_Begin)
+        if (NextGoCommand >= GoCommandsCount || !m_Begin)
             return;
 
         CurrentGoCommand = NextGoCommand;
