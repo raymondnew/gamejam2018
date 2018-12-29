@@ -16567,7 +16567,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TempWaypointListParent
       value: 
-      objectReference: {fileID: 295878786}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f519da6e8287ebc4bbe09634e0fcf84d, type: 3}
 --- !u!4 &1104222031 stripped

@@ -79,11 +79,13 @@ public class StateManager : MonoBehaviour
 
     private void Awake()
     {
-        g_Inst = this;
-        DontDestroyOnLoad(gameObject);
-
         if (FindObjectsOfType<StateManager>().Length > 1)
             Destroy(gameObject);
+        else
+        {
+            g_Inst = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     // Start is called before the first frame update
