@@ -22,7 +22,7 @@ public struct LevelSettings
 
     public void SetSettings(float timeLimit = 0.0f)
     {
-        m_TimeLimit = 0.0f;
+        m_TimeLimit = timeLimit;
     }
 
     public GameRules.EndCondition CheckSettings(float timeElapsed)
@@ -73,6 +73,7 @@ public class GameRules : MonoBehaviour
     private void Awake()
     {
         PlanningManager.OnBegin += BeginGame;
+        OnEndGame += GameEnded;
     }
 
     void BeginGame()
@@ -91,10 +92,10 @@ public class GameRules : MonoBehaviour
     {
         if (!m_Loaded)
         {
-            if (m_LoadFromTempProfileLibrary && m_TempProfileLibraryIndex >= 0 && m_TempProfileLibraryIndex < m_TempProfileLibrary.Count)
-                ProcessGameProfile(m_TempProfileLibrary[m_TempProfileLibraryIndex]);
-            //m_LevelSettings = StateManager.GetSelectedLevelSettings;
-            //ProcessGameProfile(StateManager.GetSelectedGameProfile);
+            //if (m_LoadFromTempProfileLibrary && m_TempProfileLibraryIndex >= 0 && m_TempProfileLibraryIndex < m_TempProfileLibrary.Count)
+            //    ProcessGameProfile(m_TempProfileLibrary[m_TempProfileLibraryIndex]);
+            m_LevelSettings = StateManager.GetSelectedLevelSettings;
+            ProcessGameProfile(StateManager.GetSelectedGameProfile);
 
             foreach (IGameRule gameRule in m_WinConditions)
                 gameRule.Init();
@@ -142,7 +143,14 @@ public class GameRules : MonoBehaviour
             }
 
             m_CurrentCondition = m_LevelSettings.CheckSettings(Time.time - m_StartTime);
+            if (m_CurrentCondition != EndCondition.NoEnd)
+                OnEndGame?.Invoke(m_CurrentCondition);
         }
+    }
+
+    void GameEnded(EndCondition condition)
+    {
+        Debug.Log("END OF GAME: " + condition);
     }
 
     void ProcessGameProfile(GameProfile gameProfile)
