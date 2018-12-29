@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ColorSystem : MonoBehaviour
 {
+    static public ColorSystem Instance { get; private set; }
+
     [System.Serializable]
     public class SquadColor
     {
@@ -15,15 +17,8 @@ public class ColorSystem : MonoBehaviour
 
     public Color32[] GoCommandColors;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Instance = this;
     }
 }
