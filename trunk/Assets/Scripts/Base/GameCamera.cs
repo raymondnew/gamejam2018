@@ -84,14 +84,14 @@ public class GameCamera : MonoBehaviour
             if (LevelManager.FloorNum > m_CurrentLevel)
                 m_CurrentLevel++;
 
-            transform.position = new Vector3(transform.position.x, m_InitialHeight + (Level_Base.FloorHeight * m_CurrentLevel), transform.position.z);
+            transform.position = new Vector3(transform.position.x, m_InitialHeight + (Level_Base.FloorHeight * (m_CurrentLevel - 1)), transform.position.z);
         }
         else if (Input.GetKeyUp(KeyCode.F))
         {
             if (m_CurrentLevel > 1)
                 m_CurrentLevel--;
 
-            transform.position = new Vector3(transform.position.x, m_InitialHeight + (Level_Base.FloorHeight * m_CurrentLevel), transform.position.z);
+            transform.position = new Vector3(transform.position.x, m_InitialHeight + (Level_Base.FloorHeight * (m_CurrentLevel - 1)), transform.position.z);
         }
     }
 }
