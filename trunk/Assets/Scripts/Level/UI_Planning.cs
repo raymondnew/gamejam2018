@@ -214,7 +214,7 @@ public class UI_Planning : MonoBehaviour
             return;
         UI_Waypoints deleteWaypoint = GetUIWaypointMember();
 
-        if (deleteWaypoint.m_waypoints.Count == 0)
+        if (deleteWaypoint.m_waypoints.Count == 1)
             return;
 
         UI_Waypoints.Waypoint deleter = deleteWaypoint.m_waypoints[deleteWaypoint.m_waypoints.Count - 1];
