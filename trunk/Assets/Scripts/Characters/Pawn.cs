@@ -121,10 +121,10 @@ public class Pawn : MonoBehaviour
                 continue;
 
             // Check if in LOS
-            Debug.DrawRay(transform.position + (transform.forward * m_MinRange) + yOffset, dirToPawn * m_MaxRange, Color.blue);
+            Debug.DrawRay(transform.position + yOffset, dirToPawn * m_MaxRange, Color.blue);
             bool noLOS = true;
             RaycastHit hitInfo;
-            if (Physics.Raycast(transform.position + (transform.forward * m_MinRange) + yOffset, dirToPawn, out hitInfo, m_MaxRange, LevelManager.LOS_Layer))
+            if (Physics.Raycast(transform.position + yOffset, dirToPawn, out hitInfo, m_MaxRange, (faction == Agent.AgentFaction.BLUE) ? LevelManager.LOS_Layer_BLUE : LevelManager.LOS_Layer_RED))
             {
                 Transform hitTransform = hitInfo.transform;
                 while (hitTransform != null && hitTransform.gameObject != pawn.gameObject)
@@ -159,10 +159,10 @@ public class Pawn : MonoBehaviour
             return false;
 
         // Check if in LOS
-        Debug.DrawRay(transform.position + (transform.forward * m_MinRange) + yOffset, dirToPawn * m_MaxRange, Color.blue);
+        Debug.DrawRay(transform.position + yOffset, dirToPawn * m_MaxRange, Color.blue);
         bool noLOS = true;
         RaycastHit hitInfo;
-        if (Physics.Raycast(transform.position + (transform.forward * m_MinRange) + yOffset, dirToPawn, out hitInfo, m_MaxRange, LevelManager.LOS_Layer))
+        if (Physics.Raycast(transform.position + yOffset, dirToPawn, out hitInfo, m_MaxRange, (faction == Agent.AgentFaction.BLUE) ? LevelManager.LOS_Layer_BLUE : LevelManager.LOS_Layer_RED))
         {
             Transform hitTransform = hitInfo.transform;
             while (hitTransform != null && hitTransform.gameObject != target.gameObject)
