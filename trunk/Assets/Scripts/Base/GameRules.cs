@@ -36,6 +36,7 @@ public struct LevelSettings
 
 public class GameRules : MonoBehaviour
 {
+    static private GameRules g_Inst;
     public delegate void EndGame(EndCondition endCondition);
     static public event EndGame OnEndGame;
 
@@ -50,6 +51,8 @@ public class GameRules : MonoBehaviour
     List<IGameRule> m_LossConditions = new List<IGameRule>();
 
     LevelSettings m_LevelSettings;
+    static public LevelSettings LvlSettings { get { return g_Inst.m_LevelSettings; } }
+    static public float StartTime { get { return g_Inst.m_StartTime; } }
 
     bool m_Loaded = false;
     EndCondition m_CurrentCondition = EndCondition.NoEnd;
@@ -60,6 +63,7 @@ public class GameRules : MonoBehaviour
 
     private void Awake()
     {
+        g_Inst = this;
         PlanningManager.OnBegin += BeginGame;
         OnEndGame += GameEnded;
     }
