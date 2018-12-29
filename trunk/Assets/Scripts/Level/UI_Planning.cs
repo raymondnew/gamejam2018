@@ -131,54 +131,67 @@ public class UI_Planning : MonoBehaviour
 
     public void SetWaypointNew()
     {
-
+        ColorSystem colorsystem = FindObjectOfType<ColorSystem>();
+        Color theColor;
         UI_UnitSelect unitSelect = FindObjectOfType<UI_UnitSelect>();
         UI_WaypointList selectedWaypoint;
         string waypointName = "";
+
+        Vector3 waypoint = GetWaypoint();
+
+        GameObject prefab = Instantiate(m_waypointPrefab, waypoint, Quaternion.identity, m_waypointGameObjectHolder.transform);
         switch (m_selector)
         {
             case "alphaOne":
                 waypointName = "A1";
                 selectedWaypoint = m_alphaOne;
+                theColor = colorsystem.SquadColors[0].m_Colors[0];
+                
                 break;
             case "alphaTwo":
                 waypointName = "A2";
                 selectedWaypoint = m_alphaTwo;
+                theColor = colorsystem.SquadColors[0].m_Colors[1];
                 break;
             case "alphaThree":
                 waypointName = "A3";
                 selectedWaypoint = m_alphaThree;
+                theColor = colorsystem.SquadColors[0].m_Colors[2];
                 break;
             case "alphaFour":
                 waypointName = "A4";
                 selectedWaypoint = m_alphaFour;
+                theColor = colorsystem.SquadColors[0].m_Colors[3];
                 break;
             case "bravoOne":
                 waypointName = "B1";
                 selectedWaypoint = m_bravoOne;
+                theColor = colorsystem.SquadColors[1].m_Colors[0];
                 break;
             case "bravoTwo":
                 waypointName = "B2";
                 selectedWaypoint = m_bravoTwo;
+                theColor = colorsystem.SquadColors[1].m_Colors[1];
                 break;
             case "bravoThree":
                 waypointName = "B3";
                 selectedWaypoint = m_bravoThree;
+                theColor = colorsystem.SquadColors[1].m_Colors[2];
                 break;
             case "bravoFour":
                 waypointName = "B4";
                 selectedWaypoint = m_bravoFour;
+                theColor = colorsystem.SquadColors[1].m_Colors[3];
                 break;
             default:
                 return;
         };
 
         waypointName = waypointName + " - " + (selectedWaypoint.m_waypoints.Count).ToString();
-        Vector3 waypoint = GetWaypoint();
-
-        GameObject prefab = Instantiate(m_waypointPrefab, waypoint, Quaternion.identity, m_waypointGameObjectHolder.transform);
+        
 
         prefab.GetComponent<LineRenderer>().positionCount = 0;
+        prefab.GetComponent<LineRenderer>().material.color = colorsystem.GoCommandColors[unitSelect.GetCurrentCommandLevel()];
 
         UI_WaypointList.Waypoint waypointStruct = new UI_WaypointList.Waypoint();
         waypointStruct.position = waypoint;
@@ -186,6 +199,9 @@ public class UI_Planning : MonoBehaviour
         waypointStruct.m_goCommand = unitSelect.GetCurrentCommandLevel();
 
         prefab.transform.Find("Name").GetComponent<TextMesh>().text = waypointName + "\n" + "Go: " + waypointStruct.m_goCommand.ToString();
+
+        
+        prefab.transform.Find("Sphere").GetComponent<Renderer>().material.color = theColor;
 
         UI_WaypointList.Waypoint previous = selectedWaypoint.m_waypoints[selectedWaypoint.m_waypoints.Count - 1];
 
