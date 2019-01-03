@@ -123,17 +123,17 @@ public class Agent : MonoBehaviour
     float m_AimTime = 1.0f;
     IEnumerator ProcessThreats()
     {
-        float m_Time = Time.time;
+        float m_Time = TimeManager.Time;
         float m_LastTime = m_Time;
         while (true)
         {
             if (TimeManager.IsPaused)
             {
-                m_LastTime = Time.time;
+                m_LastTime = TimeManager.Time;
                 yield return new WaitForSeconds(0.1f);
             }
 
-            float deltaTime = Time.time - m_LastTime;
+            float deltaTime = TimeManager.Time - m_LastTime;
             // Find enemies in view
             if (m_Target == null || !m_Pawn.HasLOS(m_Target))
             {
@@ -166,12 +166,12 @@ public class Agent : MonoBehaviour
                 if (m_TimeToAim == 0.0f)
                     Shoot(m_Target, deltaTime);
 
-                m_LastTime = Time.time;
+                m_LastTime = TimeManager.Time;
                 yield return null;
             }
             else
             {
-                m_LastTime = Time.time;
+                m_LastTime = TimeManager.Time;
                 yield return new WaitForSeconds(0.1f);
             }
         }

@@ -82,6 +82,9 @@ public class GameRules : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (TimeManager.IsPaused)
+            return;
+
         if (!m_Loaded)
         {
             m_LevelSettings = StateManager.GetSelectedLevelSettings;
@@ -132,7 +135,7 @@ public class GameRules : MonoBehaviour
                 return;
             }
 
-            m_CurrentCondition = m_LevelSettings.CheckSettings(Time.time - m_StartTime);
+            m_CurrentCondition = m_LevelSettings.CheckSettings(TimeManager.Time - m_StartTime);
             if (m_CurrentCondition != EndCondition.NoEnd)
                 OnEndGame?.Invoke(m_CurrentCondition);
         }
