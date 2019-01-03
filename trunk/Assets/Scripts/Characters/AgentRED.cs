@@ -54,6 +54,9 @@ public class AgentRED : Agent
     {
         base.Update();
 
+        if (TimeManager.IsPaused)
+            return;
+
         if (m_CurrentState == AgentState.End)
             return;
 

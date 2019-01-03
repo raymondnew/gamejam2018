@@ -41,6 +41,7 @@ public class GameMenu : MonoBehaviour
 
     void Open()
     {
+        TimeManager.Pause();
         cnvGrp.interactable = true;
         cnvGrp.blocksRaycasts = true;
         cnvGrp.alpha = 1.0f;
@@ -49,6 +50,7 @@ public class GameMenu : MonoBehaviour
 
     void Close()
     {
+        TimeManager.Play();
         cnvGrp.interactable = false;
         cnvGrp.blocksRaycasts = false;
         cnvGrp.alpha = 0.0f;

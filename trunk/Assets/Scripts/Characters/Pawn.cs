@@ -45,6 +45,7 @@ public class Pawn : MonoBehaviour
 
     void Awake()
     {
+        TimeManager.OnPause += OnPause;
         m_GunfireFX.Stop();
         InitAgent();
     }
@@ -68,6 +69,9 @@ public class Pawn : MonoBehaviour
 
     void Update()
     {
+        if (TimeManager.IsPaused)
+            return;
+
         UpdateFloor();
 
         if (Vector3.Distance(m_NavAgent.destination, transform.position) < 0.2f)
@@ -205,11 +209,19 @@ public class Pawn : MonoBehaviour
         Gizmos.DrawLine(transform.position + (rightDir * m_MinRange) + yOffset, transform.position + (rightDir * m_MaxRange) + yOffset);
     }
 
+    void OnPause()
+    {
+        m_NavAgent.destination = transform.position;
+    }
+
 
 
     // COMBAT
     public void ShootAt(Pawn target, float rof, float muzzleVelocity, float dmg)
     {
+        if (TimeManager.IsPaused)
+            return;
+
         if (!m_GunfireFX.isPlaying)
         {
             var main = m_GunfireFX.main;

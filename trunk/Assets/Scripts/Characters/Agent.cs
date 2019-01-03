@@ -39,12 +39,17 @@ public class Agent : MonoBehaviour
 
     protected virtual void Awake()
     {
+        TimeManager.OnPause += OnPause;
+        TimeManager.OnUnPause += OnPlay;
         m_Pawn = GetComponent<Pawn>();
         GameRules.OnEndGame += End;
     }
 
     protected virtual void Update()
     {
+        if (TimeManager.IsPaused)
+            return;
+
         if (m_Pawn.HP <= 0.0f)
             Dead();
     }
@@ -82,6 +87,18 @@ public class Agent : MonoBehaviour
         StopAllCoroutines();
     }
 
+    AgentState m_LastState;
+    void OnPause()
+    {
+        m_LastState = m_CurrentState;
+        m_CurrentState = AgentState.End;
+    }
+
+    void OnPlay()
+    {
+        m_CurrentState = m_LastState;
+    }
+
 
 
 
@@ -110,6 +127,12 @@ public class Agent : MonoBehaviour
         float m_LastTime = m_Time;
         while (true)
         {
+            if (TimeManager.IsPaused)
+            {
+                m_LastTime = Time.time;
+                yield return new WaitForSeconds(0.1f);
+            }
+
             float deltaTime = Time.time - m_LastTime;
             // Find enemies in view
             if (m_Target == null || !m_Pawn.HasLOS(m_Target))
