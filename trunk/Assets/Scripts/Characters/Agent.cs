@@ -91,7 +91,7 @@ public class Agent : MonoBehaviour
     protected void Shoot(Pawn target, float deltaTime)
     {
         //float dmg = deltaTime * m_MainWeapon.rof * m_MainWeapon.damage;
-        m_Pawn.ShootAt(target, m_MainWeapon.rof, m_MainWeapon.muzzleVelocity);
+        m_Pawn.ShootAt(target, m_MainWeapon.rof, m_MainWeapon.muzzleVelocity, m_MainWeapon.damage);
     }
 
     protected void CeaseFire()

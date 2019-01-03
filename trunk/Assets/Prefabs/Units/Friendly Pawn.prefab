@@ -5270,7 +5270,7 @@ MonoBehaviour:
     name: M-16
     damage: 10
     rof: 5
-    muzzleVelocity: 10
+    muzzleVelocity: 100
   m_AimTime: 1
   m_TempWaypointListParent: {fileID: 0}
 --- !u!114 &1731560841
@@ -9012,7 +9012,7 @@ ParticleSystem:
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 1
+    collisionMessages: 0
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:

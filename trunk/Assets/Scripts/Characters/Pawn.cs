@@ -208,7 +208,7 @@ public class Pawn : MonoBehaviour
 
 
     // COMBAT
-    public void ShootAt(Pawn target, float rof, float muzzleVelocity)
+    public void ShootAt(Pawn target, float rof, float muzzleVelocity, float dmg)
     {
         if (!m_GunfireFX.isPlaying)
         {
@@ -219,6 +219,9 @@ public class Pawn : MonoBehaviour
 
             m_GunfireFX.Play();
         }
+
+        float totalDamage = TimeManager.DeltaTime * dmg * rof;
+        target.ReceiveDmg(totalDamage, transform.position);
     }
 
     public void ReceiveDmg(float dmg, Vector3 attackerLocation)

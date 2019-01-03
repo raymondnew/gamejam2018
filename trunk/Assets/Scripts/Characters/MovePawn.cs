@@ -59,7 +59,7 @@ public class MovePawn : MonoBehaviour
 
     private IEnumerator movePosition()
     {
-        while (Input.GetMouseButton(0))
+        while (Input.GetMouseButton(0) && !GameMenu.IsOn)
         {
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Physics.Raycast(ray, out hit);
@@ -84,7 +84,7 @@ public class MovePawn : MonoBehaviour
     void Update()
     {
         
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !GameMenu.IsOn)
         {
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray,out hit))

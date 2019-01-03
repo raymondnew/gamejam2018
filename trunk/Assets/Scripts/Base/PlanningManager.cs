@@ -35,8 +35,8 @@ public class PlanningManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space))
-            IssueNextGoCommand();
+        //if (Input.GetKeyUp(KeyCode.Space))
+            //IssueNextGoCommand();
     }
 
     public void AddNewGoCommand(int numGoCommands = 1)
